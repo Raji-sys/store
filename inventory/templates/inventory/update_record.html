@@ -1,0 +1,124 @@
+{% extends 'base.html' %}
+{% block title %}NOHD STORE{% endblock %}
+{% block content %}
+    <div class="bg-amber-100 shadow-xl rounded-lg overflow-hidden m-2 mx-auto px-20">
+      <div class="bg-amber-600 flex justify-center gap-4 text-white align-middle text-xl py-2">
+        <div>
+          <a href="{% url 'record' %}" ><i class="text-white fa-solid fa-arrow-left"></i></a>    
+        </div>
+        <div>
+          <h2 class=" text-white text-center uppercase text-lg">Update Item Record</h2>
+        </div>
+      </div>
+<!-- update_record.html -->
+<form id="recordForm" action="" method="POST" enctype="multipart/form-data" class="p-3 text-xs text-center">
+    {% csrf_token %}
+    <div class="mb-4 last:mb-0">
+        {% if form.non_field_errors %}
+          <div class="text-red-600 text-xs uppercase bg-white p-2 rounded-xl w-fit text-center mb-1">
+            {{ form.non_field_errors.0 }}
+          </div>
+        {% endif %}
+    </div>
+
+    <div class="grid grid-cols-1 gap-2">
+        <div class="grid grid-cols-3 lg:grid-cols-6 gap-4">
+            <div class="space-y-1">
+                <label class="block text-xs font-medium text-gray-700">UNIT</label>
+                {{ form.unit }}
+                {% if form.unit.errors %}
+                    <div class="text-red-600 ">
+                        {{ form.unit.errors.0 }}
+                    </div>
+                {% endif %}
+            </div>
+
+            <div class="space-y-1">
+                <label class="block text-xs font-medium text-gray-700">ITEM</label>
+                {{ form.item }}
+                {% if form.item.errors %}
+                    <div class="text-red-600 ">
+                        {{ form.item.errors.0 }}
+                    </div>
+                {% endif %}
+            </div>
+
+            <div class="space-y-1">
+                <label class="block text-xs font-medium text-gray-700">TO WHOM</label>
+                {{ form.issued_to }}
+                {% if form.issued_to.errors %}
+                    <div class="text-red-600">
+                        {{ form.issued_to.errors.0 }}
+                    </div>
+                {% endif %}
+            </div>
+
+            <div class="space-y-1">
+                <label class="block text-xs font-medium text-gray-700">QUANTITY</label>
+                {{ form.quantity }}
+                {% if form.quantity.errors %}
+                    <div class="text-red-600">
+                        {{ form.quantity.errors.0 }}
+                    </div>
+                {% endif %}
+            </div>
+
+            <div class="space-y-1">
+                <label class="block text-xs font-medium text-gray-700">SIV</label>
+                {{ form.siv }}
+                {% if form.siv.errors %}
+                    <div class="text-red-600">
+                        {{ form.siv.errors.0 }}
+                    </div>
+                {% endif %}
+            </div>
+
+            <div class="space-y-1">
+                <label class="block text-xs font-medium text-gray-700">REQUISITION NUMBER</label>
+                {{ form.requisition_number }}
+                {% if form.requisition_number.errors %}
+                    <div class="text-red-600">
+                        {{ form.requisition_number.errors.0 }}
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+
+    <div class="flex justify-center align-middle mt-2">
+        <input type="submit" value="update item"
+               class="focus:opacity-10 uppercase focus:border-green-600 hover:bg-white hover:text-green-600 hover:border-2 hover:border-green-600
+               bg-green-500 text-white py-2 px-6 rounded shadow-lg hover:shadow-xl">
+    </div>
+</form>
+</div>
+<script>
+function initializePage() {
+  function load_items() {
+    const unitId = document.getElementsByName('unit')[0].value;
+    const url = `/get_items_for_unit/${unitId}/`;
+
+    fetch(url)
+      .then(response => response.json())
+      .then(data => {
+        const itemSelect = document.getElementsByName('item')[0];
+        itemSelect.innerHTML = '';  // Clear existing options
+
+        data.items.forEach(item => {
+          const option = document.createElement('option');
+          option.value = item.id;          
+
+          const vendor = item.vendor === 'N/A' ? '' : ` - ${item.vendor}`;
+          option.text = `${item.name}${vendor}`.trim();          
+          itemSelect.add(option);
+        });
+      })
+      .catch(error => console.error('Error:', error));
+  }
+
+  document.getElementsByName('unit')[0].addEventListener('change', load_items);
+}
+
+window.addEventListener('load', initializePage);
+</script>
+{% endblock %}

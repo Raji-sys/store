@@ -1,0 +1,158 @@
+{% extends "base.html" %}
+{% load static %}
+{% load humanize %}
+
+{% block title %}NOHD STORE{% endblock %}
+
+{% block content %}
+<div class="max-w-7xl mx-auto px-4 ">
+    <!-- start of first grid  -->
+<div class="flex justify-end items-center m-2 space-x-2">
+    {% if request.GET.urlencode %}
+        <a href="{% url 'item_report_pdf' %}?{{request.GET.urlencode}}" class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-rose-600 hover:bg-rose-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-rose-500">
+            <i class="fa-solid fa-file-pdf mr-2"></i> Generate PDF
+        </a>
+        <a href="?" class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-yellow-600 hover:bg-yellow-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-yellow-500">
+            <i class="fa-solid fa-rotate mr-2"></i> Reset
+        </a>
+        {% endif %}
+    </div>
+
+<div class="bg-white shadow overflow-hidden sm:rounded-lg mb-4">
+    <div class="px-4 py-5 sm:p-6">
+        <form method="get" class="space-y-4">
+            <div class="md:flex md:justify-center gap-4 grid grid-cols-2">
+                {% for field in itemfilter.form %}
+                <div>
+                    <label for="{{ field.id_for_label }}" class="block text-xs font-medium text-gray-700">{{ field.label }}</label>
+                    {% if field.field.widget.input_type == 'select' %}
+                    <select name="{{ field.name }}" id="{{ field.id_for_label }}" 
+                    class="mt-1 focus:ring-cyan-500 focus:border-cyan-500 block w-full shadow-sm text-xs border-gray-300 rounded-md">
+                {% for choice in field.field.choices %}
+                    <option value="{{ choice.0 }}" {% if choice.0 == field.value %}selected{% endif %}>
+                        {{ choice.1 }}
+                    </option>
+                {% endfor %}
+            </select>
+                    {% else %}
+                        <input type="{{ field.field.widget.input_type }}" 
+                               name="{{ field.name }}" 
+                               id="{{ field.id_for_label }}" 
+                               value="{{ field.value|default:'' }}"
+                               class="mt-1 focus:ring-cyan-500 focus:border-cyan-500 block w-full shadow-sm text-xs border-gray-300 rounded-md"
+                        >
+                    {% endif %}
+                    {% if field.errors %}
+                        <p class="mt-2 text-sm text-red-600">{{ field.errors.0 }}</p>
+                    {% endif %}
+                </div>
+             {% endfor %}
+                <button type="submit" class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+                    <i class="fa-solid fa-search mr-2"></i> Search
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+
+    <!-- end of first grid -->
+
+    {% if request.GET.urlencode %}
+    <p class="text-sm text-gray-700 text-center font-semibold">Item Count: {{ total_count }}</p>
+<div class="max-w-screen-xl mx-auto">
+   <table class="table-auto max-sm:flex flex rounded-2xl items-center justify-center">
+        <tbody class="bg-white border-1 shadow-2xl rounded-2xl max-sm:p-4 p-2 overflow-x-auto border-zinc-700">
+            <tr class="text-xs bg-zinc-600 text-white">
+                <th scope="col" class=" p-1">#</th>
+                <th scope="col" class=" p-3">DATE ADDED</th>
+                <th scope="col" class=" p-3">NAME</th>
+                <th scope="col" class=" p-3">VENDOR</th>
+                <th scope="col" class=" p-3">ADDED BY</th>
+                <th scope="col" class=" p-3">INVOICE NUMBER</th>
+                <th scope="col" class=" p-3">STORE RECEIVING VOUCHER</th>
+                <th scope="col" class=" p-3">STORE UNIT</th>
+                <th scope="col" class=" p-3">UNIT PRICE</th>
+                <th scope="col" class=" p-3">EXPIRY DATE</th>
+                <th scope="col" class=" p-3">TOTAL ITEMS</th>
+                <th scope="col" class=" p-3">BALANCE</th>
+                <th scope="col" class=" p-3">TOTAL VALUE</th>
+            </tr>
+            {% for i in po %}
+        <tr class="text-xs {% cycle 'bg-white hover:bg-zinc-200' 'bg-zinc-100 hover:bg-zinc-200' %} border-b border-zinc-700">
+            <td class="border-1 border-zinc-700 p-1 text-center">
+                {{forloop.counter}}
+            </td>
+            <td class="border-1 border-zinc-700 p-3 text-center">
+                {{i.date_added|default_if_none:''}}
+            </td>
+            <td class="border-1 border-zinc-700 p-3 text-center">
+                {{i.name|default_if_none:''}}
+            </td>
+            <td class="border-1 border-zinc-700 p-3 text-center">
+            {{i.vendor|default_if_none:''}}
+            </td>
+            <td class="border-1 border-zinc-700 p-3 text-center">
+                {{i.added_by|default_if_none:''}}
+            </td>
+            <td class="border-1 border-zinc-700 p-1 text-center">
+            {{i.invoice_number|default_if_none:''}} 
+            </td>
+            <td class="border-1 border-zinc-700 p-1 text-center">
+            {{i.store_receiving_voucher|default_if_none:''}} 
+            </td>
+            <td class="border-1 border-zinc-700 p-3 text-center">
+                {{i.unit|default_if_none:''}} 
+            </td>
+            <td class="border-1 border-zinc-700 p-3 text-center">
+                {{i.unit_price|default_if_none:''}}
+            </td>
+            <td class="border-1 border-zinc-700 p-3 text-center">
+                {{i.expiration_date|default_if_none:''}}
+            </td>
+            <td class="border-1 border-zinc-700 p-3 text-center">
+                {{i.total_purchased_quantity|default_if_none:''}} 
+            </td>
+            <td class="border-1 border-zinc-700 p-4 text-center">
+                {{i.current_balance|default_if_none:''}}
+            </td>
+            <td class="border-1 border-zinc-700 p-3 text-center text-green-600">
+                &#x20A6;{{i.total_value|floatformat:2|intcomma}}
+            </td>
+            </tr>
+            {% empty %}
+
+            {%endfor%} 
+
+</tbody>
+</table>
+<div class="mt-1 flex items-center justify-between">
+    <div class="flex-1 flex justify-end">
+        {% if po.has_previous %}
+        <a href="?page=1&{{ filter_params }}" 
+           class="relative inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-white bg-gray-600 hover:bg-gray-50 hover:text-gray-600 mr-3">
+            <i class="fas fa-angle-double-left"></i>
+        </a>
+        <a href="?page={{ po.previous_page_number }}&{{ filter_params }}"
+           class="relative inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-white bg-gray-600 hover:bg-gray-50 hover:text-gray-600 mr-3">
+            <i class="fas fa-angle-left"></i>
+        </a>
+        {% endif %}
+        
+        {% if po.has_next %}
+        <a href="?page={{ po.next_page_number }}&{{ filter_params }}"
+           class="relative inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-white bg-gray-600 hover:bg-gray-50 hover:text-gray-600">
+            <i class="fas fa-angle-right"></i>
+        </a>
+        <a href="?page={{ po.paginator.num_pages }}&{{ filter_params }}"
+           class="relative inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-white bg-gray-600 hover:bg-gray-50 hover:text-gray-600 ml-3">
+            <i class="fas fa-angle-double-right"></i>
+        </a>
+        {% endif %}
+    </div>
+</div>
+
+{% endif %}
+
+  <!-- end of second grid  -->
+  </div>
+{% endblock %}

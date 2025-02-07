@@ -1,0 +1,170 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NOHD STORE REPORT</title>
+    <style>
+        @page{
+    margin: 0.8cm;
+    padding: 0.1cm;
+    border: 1px solid #1f2fdf;
+}
+    body {
+        font-family: Arial, sans-serif;
+        color: #333;
+        margin: 0;
+        box-sizing: border-box;
+        min-height: 100vh;
+    }
+    .logo-container {
+        text-align: center;
+        margin-top: 0%;
+    }
+
+    .logo-image {
+        width: 150px;
+        display: inline-block;
+        margin-top: 0%;
+
+    }
+
+h1 {
+            color: #039a10;
+            text-align: center;
+        }
+
+
+        .queryset-data {
+            margin: 2px 0;
+            text-align: center;
+            font-size: 10px;
+        }
+
+        .result {
+            text-align: center;
+            font-weight: bold;
+        }
+
+        .summary {
+            background-color: #e6f3ff;
+            padding: 10px;
+            border-radius: 5px;
+            text-align: center;
+        }
+
+        .summary b {
+            color: #1f2fdf;
+            margin-right: 15px;
+            font-size: medium;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+        }
+
+         td {
+            border: 1px solid #ddd;
+            text-align: center;
+    padding: 5px; /* Adjust the padding as needed */
+    word-wrap: break-word; /* Allow text to wrap */
+    overflow: hidden; /* Add this line to prevent overflow */
+    text-overflow: ellipsis; /* Add this line to display ellipsis (...) for truncated text */
+    white-space: normal; /* Allow text wrap */
+
+        }
+
+        th {
+          padding: 2px;
+            background-color: #1f2fdf;
+            color: white;
+            text-transform: uppercase;
+            font-weight: bold;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+
+        tr:hover {
+            background-color: #e6f3ff;
+        }
+
+        .text-center {
+            text-align: center;
+        }
+
+        .text-right {
+            text-align: right;
+        }
+        .small-column {
+            width: 30px;
+        }
+        .t{
+            font-style: bold;
+            font-size: 10px;
+        }
+        .rose{
+         color: red;   
+        }
+
+    </style>
+</head>
+<body>
+    <div class="logo-container">
+        <img class="logo-image" src="{% static "images/logo.jpg" %}" alt="">
+    </div>
+    <h1> NOHD PHARMACY DRUG RESTOCK REPORT</h1>
+    <div class="result">
+      {{ result|upper }}
+    </div>
+    <hr>
+  <table>
+        <thead>
+            <tr>
+                <th class="small-column">#</th>
+                <th class="">UNIT</th>
+                <th class="">ITEM</th>
+                <th class="">QTY</th>
+                <th class="">INVOICE NUMBER</th>
+                <th class="">SRV</th>
+                <th class="">EXPIRY DATE</th>
+                <th class="">DATE</th>
+            </tr>
+              {% for r in f %}        
+        <tr class=>
+            <td class="small-column text-center">
+                {{forloop.counter}}
+            </td>    
+            <td>
+                {{r.unit|default_if_none:''|upper}}
+            </td>
+            <td>
+                {{r.item|default_if_none:''|upper}}
+            </td>
+            <td>
+                {{r.quantity_purchased|default_if_none:''|upper}}
+            </td>
+            <td>
+                {{r.invoice_number|default_if_none:''|upper}}
+            </td>
+            <td>
+            {{r.store_receiving_voucher|default_if_none:''|upper}}
+            </td>
+            <td class="text-center">
+                {{r.expiration_date|default_if_none:''}}<br>
+            </td>    
+            <td class="text-center">
+                {{r.purchase_date|default_if_none:''}}<br>
+            </td>    
+
+          </tr>
+          {%endfor%}
+        </tbody>
+</table>
+
+</body>
+</html>

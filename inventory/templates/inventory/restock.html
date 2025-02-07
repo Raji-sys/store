@@ -1,0 +1,124 @@
+{% extends 'base.html' %}
+{% block title %}Item Restocking{% endblock %}
+{% block content %}
+<div class="py-4 px-4 sm:px-6 lg:px-6 max-w-7xl mx-auto">
+    <div class="bg-blue-100 shadow-xl rounded-lg overflow-hidden">
+      <div class="bg-blue-600 py-3 flex justify-center gap-4 text-xl text-white">
+        <div>
+          <a href="{% url 'restocked' %}" ><i class="text-white fa-solid fa-arrow-left"></i></a>    
+        </div>
+        <div>
+          <h2 class="text-lg  text-white text-center uppercase">Restock items</h2>
+        </div>
+      </div>
+      <form id="recordForm" action="" method="POST" enctype="multipart/form-data" class="p-3 text-xs text-center">
+        {% csrf_token %}
+          <div class="mb-4 last:mb-0">
+            {% if form.non_field_errors %}
+              <div class="text-red-600 text-xs mb-4">
+                {{ form.non_field_errors.0 }}
+              </div>
+            {% endif %}
+            <div class="grid grid-cols-1 gap-4 md:grid-cols-3">
+              <div class="space-y-1">
+                <label class="block text-xs font-medium text-gray-700">Unit</label>
+                <div class="mt-1">
+                  {{ form.unit }}
+                </div>
+                {% if form.unit.errors %}
+                  <p class="text-red-600 text-xs mt-1">{{ form.unit.errors.0 }}</p>
+                {% endif %}
+              </div>
+              <div class="space-y-1">
+                <label class="text-xs font-medium text-gray-700">Item</label>
+                <div class="mt-1">
+                  {{ form.item }}
+                </div>
+                {% if form.item.errors %}
+                  <p class="text-red-600 text-xs mt-1">{{ form.item.errors.0 }}</p>
+                {% endif %}
+              </div>
+              <div class="space-y-1">
+                <label class="block text-xs font-medium text-gray-700">Qty</label>
+                <div class="mt-1">
+                  {{ form.quantity_purchased }}
+                </div>
+                {% if form.quantity_purchased.errors %}
+                  <p class="text-red-600 text-xs mt-1">{{ form.quantity_purchased.errors.0 }}</p>
+                {% endif %}
+              </div>
+
+              <div class="space-y-1">
+                <label class="block text-sm font-medium text-gray-700">Invoice Number</label>
+                <div class="mt-1">
+                    {{ form.invoice_number }}
+                </div>
+                {% if form.invoice_number.errors %}
+                <p class="text-red-600 text-xs mt-1">{{ form.invoice_number.errors.0 }}</p>
+                {% endif %} 
+             </div>
+
+             <div class="space-y-1">
+              <label class="block text-sm font-medium text-gray-700">SRV</label>
+              <div class="mt-1">
+            {{ form.store_receiving_voucher }}
+            </div>
+            {% if form.store_receiving_voucher.errors %}
+                <div class="text-red-600">
+                    {{ form.store_receiving_voucher.errors.0 }}
+                </div>
+            {% endif %}
+                </div>
+              <div class="space-y-1">
+                <label class="block text-sm font-medium text-gray-700">Expiry Date</label>
+                <div class="mt-1">
+                    {{ form.expiration_date }}
+                </div>
+                {% if form.expiration_date.errors %}
+                <p class="text-red-600 text-xs mt-1">{{ form.expiration_date.errors.0 }}</p>
+                {% endif %}
+            </div>
+
+          </div>
+          </div>
+        <div class="mt-3 flex justify-center">
+          <button type="submit" class="text-xs px-6 py-3 bg-blue-600 text-white uppercase rounded-md shadow-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 transition-colors duration-200">
+            Restock
+          </button>
+        </div>
+      </form>
+    </div>
+
+</div>
+
+<script>
+  function initializePage() {
+    function load_items() {
+      const unitId = document.getElementsByName('unit')[0].value;
+      const url = `/get_items_for_unit/${unitId}/`;
+  
+      fetch(url)
+        .then(response => response.json())
+        .then(data => {
+          const itemSelect = document.getElementsByName('item')[0];
+          itemSelect.innerHTML = '';  // Clear existing options
+  
+          data.items.forEach(item => {
+            const option = document.createElement('option');
+            option.value = item.id;          
+  
+            const vendor = item.vendor === 'N/A' ? '' : ` - ${item.vendor}`;
+            option.text = `${item.name}${vendor}`.trim();          
+            itemSelect.add(option);
+          });
+        })
+        .catch(error => console.error('Error:', error));
+    }
+  
+    document.getElementsByName('unit')[0].addEventListener('change', load_items);
+  }
+  
+  window.addEventListener('load', initializePage);
+  </script>
+
+{% endblock %}

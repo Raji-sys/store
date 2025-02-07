@@ -1,0 +1,27 @@
+static/
+
+# Ignore virtual environment directories
+venv/
+bin/
+include/
+lib/
+lib64/
+pyvenv.cfg
+
+# Python bytecode
+__pycache__/
+*.py[cod]
+
+# Completely ignore all cached files across the project
+**/__pycache__/
+
+# Ignore logs
+*.log
+
+# Ignore SQLite database file
+db.sqlite3
+
+theme/
+items/
+test/
+

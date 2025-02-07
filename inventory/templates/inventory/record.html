@@ -1,0 +1,139 @@
+{% extends "base.html" %}
+{% load humanize %}
+{% load static %}
+{% block title %}Item Issue Records{% endblock %}
+{% block content %}
+<div class="mx-1 py-2 md:mx-auto ">
+    <div class="flex justify-center p-2 gap-4 text-xl">
+        <div>
+    <a href="{% url 'index' %}" ><i class="fa-solid fa-arrow-left"></i></a>
+</div>
+<div>
+    <h1 class="text-lg  text-amber-600 text-center uppercase">Item Issue Record</h1>
+</div>
+    </div>
+    <div class=" flex flex-wrap justify-center items-center mb-1 space-x-2 gap-2">
+            <a href="{% url 'create_record' %}" class="inline-flex items-center px-4 py-2 border border-transparent text-xs font-medium rounded-md text-white bg-amber-600 hover:bg-amber-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-amber-500">
+                <i class="fas fa-plus fa-xl mr-2"></i> New Record
+            </a>
+            <a href="{% url 'record_report' %}" class="text-xs inline-flex items-center px-4 py-2 border border-transparent font-medium rounded-md text-white bg-teal-600 hover:bg-teal-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-teal-500">
+                <i class="fas fa-file fa-xl mr-2"></i> Report
+            </a>
+  <!-- Search Form -->
+  <form method="get" class="flex flex-col sm:flex-row items-center space-y-2 sm:space-y-0 sm:space-x-2">
+    <div class="flex flex-col sm:flex-row items-center space-y-2 sm:space-y-0 sm:space-x-2 w-full sm:w-auto">
+        <div class="w-full sm:w-auto">
+            <label for="q" class="sr-only">Search</label>
+            <input type="text" name="q" id="q" value="{{ query|default_if_none:'' }}" placeholder="Search..."
+                class="focus:ring-amber-500 focus:border-amber-500 block shadow-sm text-xs border-gray-300 rounded-md w-full sm:w-60">
+        </div>
+        <div class="flex space-x-2 w-full sm:w-auto">
+            <input type="date" name="date_from" value="{{ date_from|default:'' }}" 
+                class="focus:ring-amber-500 focus:border-amber-500 block shadow-sm text-xs border-gray-300 rounded-md w-full sm:w-auto"
+                placeholder="From Date">
+            <input type="date" name="date_to" value="{{ date_to|default:'' }}" 
+                class="focus:ring-amber-500 focus:border-amber-500 block shadow-sm text-xs border-gray-300 rounded-md w-full sm:w-auto"
+                placeholder="To Date">
+        </div>
+    </div>
+    
+    <div class="flex space-x-2">
+        <button type="submit" class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-cyan-600 hover:bg-cyan-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-cyan-500">
+            <i class="fas fa-search"></i>
+        </button>
+        
+        {% if request.GET.urlencode %}
+        <a href="?" class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-amber-500 hover:bg-amber-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-amber-500">
+            <i class="fas fa-rotate"></i>
+        </a>
+        <a href="{% url 'record_pdf' %}?{% if request.GET.q %}q={{ request.GET.q }}{% endif %}{% if request.GET.date_from %}&date_from={{ request.GET.date_from }}{% endif %}{% if request.GET.date_to %}&date_to={{ request.GET.date_to }}{% endif %}" 
+           class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-rose-600 hover:bg-rose-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-rose-500">
+            <i class="fa-solid fa-file-pdf"></i>
+        </a>
+        <div class="flex items-center space-x-2">
+            <span class="text-sm font-medium text-gray-700">Total Quantity Issued:</span>
+            <span class="text-lg font-semibold text-gray-900">{{ total_quantity }}</span>
+        </div>
+        {% endif %}
+    </div>
+</form>
+
+    </div>
+    <div class="bg-white shadow overflow-hidden sm:rounded-lg">
+        <div class="overflow-x-auto max-h-[70vh]">
+            <table class="min-w-full divide-y divide-gray-200 uppercase">
+            <thead class="bg-amber-600 text-white text-xs">
+                <tr>
+                    <th class="p-1">#</th>
+                    <th class="p-3">ITEM</th>
+                    <th class="p-3">DATE ADDED</th>
+                    <th class="p-3">VENDOR</th>
+                    <th class="p-3">ISSUED TO</th>
+                    <th class="p-3">ISSUED BY</th>
+                    <th class="p-3">SIV</th>
+                    <th class="p-3">REQUISITION NUMBER</th>
+                    <th class="p-3">QTY ISSUED</th>
+                    <th class="p-3">CURRENT BALANCE</th>
+                    <th class="p-3">DATE ISSUED</th>
+                    <th class="p-3">Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for r in po %}
+                <tr class="text-xs {% cycle 'bg-white hover:bg-amber-200' 'bg-amber-100 hover:bg-amber-200' %} border-b border-amber-700">
+                    <td class="p-1 text-center">{{ forloop.counter }}</td>
+                    <td class="p-3 text-center">{{ r.item.name|default_if_none:'' }}</td>
+                    <td class="p-3 text-center">{{ r.item.date_added|default_if_none:'' }}</td>
+                    <td class="p-3 text-center">{{ r.item.vendor|default_if_none:'' }}</td>
+                    <td class="p-3 text-center">{{ r.issued_to|default_if_none:'' }}</td>
+                    <td class="p-3 text-center">{{ r.issued_by|default_if_none:'' }}</td>
+                    <td class="p-3 text-center">{{ r.siv|default_if_none:'' }}</td>
+                    <td class="p-3 text-center">{{ r.requisition_number|default_if_none:'' }}</td>
+                    <td class="p-3 text-center">{{ r.quantity|default_if_none:'' }}</td>
+                    <td class="p-3 text-center">{{ r.balance|default_if_none:'' }}</td>
+                    <td class="p-3 text-center">{{ r.date_issued|default_if_none:'' }}</td>
+                    <td class="px-3 py-4 text-center whitespace-nowrap text-gray-500">
+                        <a href="{% url 'update_record' r.id %}" class="mr-2"><i class="fa fa-solid fa-edit fa-lg text-amber-600"></i></a>
+                        <a href="{% url 'delete_record' r.id %}"><i class="fa fa-solid fa-xmark-square fa-lg text-rose-600"></i></a>
+                    </td>
+            </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+<div class="mt-1 flex items-center justify-between">
+    <div>
+        <p class="text-xs text-gray-700 mt-2">
+            Showing page <span class="font-medium">{{ po.number }}</span> of <span class="font-medium">{{ po.paginator.num_pages }}</span>
+        </p>
+    </div>
+    <div class="mt-1 flex items-center justify-between">
+        <div class="flex-1 flex justify-end">
+            {% if po.has_previous %}
+            <a href="?page=1{% if request.GET.q %}&q={{ request.GET.q }}{% endif %}{% if request.GET.date_from %}&date_from={{ request.GET.date_from }}{% endif %}{% if request.GET.date_to %}&date_to={{ request.GET.date_to }}{% endif %}" 
+               class="relative inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-white bg-amber-600 hover:bg-gray-50 hover:text-amber-600 mr-3">
+                <i class="fas fa-angle-double-left"></i>
+            </a>
+            <a href="?page={{ po.previous_page_number }}{% if request.GET.q %}&q={{ request.GET.q }}{% endif %}{% if request.GET.date_from %}&date_from={{ request.GET.date_from }}{% endif %}{% if request.GET.date_to %}&date_to={{ request.GET.date_to }}{% endif %}"
+               class="relative inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-white bg-amber-600 hover:bg-gray-50 hover:text-amber-600 mr-3">
+                <i class="fas fa-angle-left"></i>
+            </a>
+            {% endif %}
+            
+            {% if po.has_next %}
+            <a href="?page={{ po.next_page_number }}{% if request.GET.q %}&q={{ request.GET.q }}{% endif %}{% if request.GET.date_from %}&date_from={{ request.GET.date_from }}{% endif %}{% if request.GET.date_to %}&date_to={{ request.GET.date_to }}{% endif %}"
+               class="relative inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-white bg-amber-600 hover:bg-gray-50 hover:text-amber-600">
+                <i class="fas fa-angle-right"></i>
+            </a>
+            <a href="?page={{ po.paginator.num_pages }}{% if request.GET.q %}&q={{ request.GET.q }}{% endif %}{% if request.GET.date_from %}&date_from={{ request.GET.date_from }}{% endif %}{% if request.GET.date_to %}&date_to={{ request.GET.date_to }}{% endif %}"
+               class="relative inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-white bg-amber-600 hover:bg-gray-50 hover:text-amber-600 ml-3">
+                <i class="fas fa-angle-double-right"></i>
+            </a>
+            {% endif %}
+        </div>
+     </div>
+</div>
+</div>
+
+{% endblock %}

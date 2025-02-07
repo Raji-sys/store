@@ -1,0 +1,161 @@
+{% extends "base.html" %}
+{% load humanize %}
+{% load static %}
+{% block title %}NOHD STORE{% endblock %}
+
+{% block content %}
+<div class="max-w-full">
+  <div class="flex justify-center p-4 gap-4 text-xl">
+  <div>
+      <a href="{% url 'index' %}" ><i class="fa-solid fa-arrow-left"></i></a>
+  </div>
+  <div>
+      <h1 class="text-lg  text-zinc-800 text-center uppercase">Inventory</h1>
+  </div>
+  </div>
+    <div class="flex flex-wrap justify-center items-center m-2 space-x-2 gap-2">
+        <a href="{% url 'create_item' %}" class="inline-flex items-center px-4 py-2 border border-transparent text-xs font-medium rounded-md text-white bg-zinc-600 hover:bg-zinc-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-zinc-500">
+            <i class="fas fa-plus fa-xl mr-2"></i> Add Item
+        </a>
+        <a href="{% url 'item_report' %}" class="inline-flex items-center px-4 py-2 border border-transparent text-xs font-medium rounded-md text-white bg-teal-600 hover:bg-teal-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-teal-500">
+            <i class="fas fa-file fa-xl mr-2"></i> Item Report
+        </a>
+ <!-- Search Form -->
+ <form method="get" class="flex flex-col sm:flex-row items-center space-y-2 sm:space-y-0 sm:space-x-2">
+    <div class="flex flex-col sm:flex-row items-center space-y-2 sm:space-y-0 sm:space-x-2 w-full sm:w-auto">
+        <div class="w-full sm:w-auto">
+            <label for="q" class="sr-only">Search</label>
+            <input type="text" name="q" id="q" value="{{ query|default_if_none:'' }}" placeholder="Search..."
+                class="focus:ring-amber-500 focus:border-amber-500 block shadow-sm text-xs border-gray-300 rounded-md w-full sm:w-60">
+        </div>
+        <div class="flex space-x-2 w-full sm:w-auto">
+            <input type="date" name="date_from" value="{{ date_from|default:'' }}" 
+                class="focus:ring-amber-500 focus:border-amber-500 block shadow-sm text-xs border-gray-300 rounded-md w-full sm:w-auto"
+                placeholder="From Date">
+            <input type="date" name="date_to" value="{{ date_to|default:'' }}" 
+                class="focus:ring-amber-500 focus:border-amber-500 block shadow-sm text-xs border-gray-300 rounded-md w-full sm:w-auto"
+                placeholder="To Date">
+        </div>
+    </div>
+    
+    <div class="flex space-x-2">
+        <button type="submit" class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-cyan-600 hover:bg-cyan-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-cyan-500">
+            <i class="fas fa-search"></i>
+        </button>
+        
+        {% if request.GET.urlencode %}
+        <a href="?" class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-amber-500 hover:bg-amber-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-amber-500">
+            <i class="fas fa-rotate"></i>
+        </a>
+        <a href="{% url 'item_pdf' %}?{% if request.GET.q %}q={{ request.GET.q }}{% endif %}{% if request.GET.date_from %}&date_from={{ request.GET.date_from }}{% endif %}{% if request.GET.date_to %}&date_to={{ request.GET.date_to }}{% endif %}" 
+           class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-rose-600 hover:bg-rose-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-rose-500">
+            <i class="fa-solid fa-file-pdf"></i>
+        </a>
+        {% endif %}
+    </div>
+</form>
+    </div>
+ 
+    <div class="bg-white shadow overflow-hidden sm:rounded-lg">
+        <div class="overflow-x-auto max-h-[65vh]">
+            <table class="min-w-full divide-y divide-gray-200">
+        <tbody class="bg-white border-1 shadow-2xl rounded-2xl max-sm:p-3 p-2 overflow-x-auto border-zinc-700">
+            <div class="flex justify-center items-center gap-3">
+            </div>
+            <tr class="text-xs bg-zinc-600 text-white">
+                <th scope="col" class=" p-1">#</th>
+                <th scope="col" class=" p-3">DATE ADDED</th>
+                <th scope="col" class=" p-3">NAME</th>
+                <th scope="col" class=" p-3">VENDOR</th>
+                <th scope="col" class=" p-3">ADDED BY</th>
+                <th scope="col" class=" p-3">INVOICE NUMBER</th>
+                <th scope="col" class=" p-3">STORE RECEIVING VOUCHER</th>
+                <th scope="col" class=" p-3">STORE UNIT</th>
+                <th scope="col" class=" p-3">UNIT PRICE</th>
+                <th scope="col" class=" p-3">EXPIRY DATE</th>
+                <th scope="col" class=" p-3">TOTAL ITEMS</th>
+                <th scope="col" class=" p-3">BALANCE</th>
+                <th scope="col" class=" p-3">TOTAL VALUE</th>
+            </tr>
+            {% for i in po %}
+        <tr class="text-xs {% cycle 'bg-white hover:bg-zinc-200' 'bg-zinc-100 hover:bg-zinc-200' %} border-b border-zinc-700">
+            <td class="border-1 border-zinc-700 p-1 text-center">
+            {{forloop.counter}}
+            </td>
+            <td class="border-1 border-zinc-700 p-3 text-center">
+            {{i.date_added|default_if_none:''}}
+            </td>
+            <td class="border-1 border-zinc-700 p-3 text-center">
+            {{i.name|default_if_none:''}}
+            </td>
+            <td class="border-1 border-zinc-700 p-3 text-center">
+            {{i.vendor|default_if_none:''}}
+            </td>
+            <td class="border-1 border-zinc-700 p-3 text-center">
+            {{i.added_by|default_if_none:''}}
+            </td>
+            <td class="border-1 border-zinc-700 p-1 text-center">
+            {{i.invoice_number|default_if_none:''}} 
+            </td>
+            <td class="border-1 border-zinc-700 p-1 text-center">
+            {{i.store_receiving_voucher|default_if_none:''}} 
+            </td>
+            <td class="border-1 border-zinc-700 p-1 text-center">
+            {{i.unit|default_if_none:''}} 
+            </td>
+            <td class="border-1 border-zinc-700 p-3 text-center">
+            {{i.unit_price|intcomma}}
+            </td>
+            <td class="border-1 border-zinc-700 p-3 text-center">
+            {{i.expiration_date|default_if_none:''}}
+            </td>
+            <td class="border-1 border-zinc-700 p-3 text-center">
+            {{i.total_purchased_quantity|intcomma}}
+            </td>
+            <td class="border-1 border-zinc-700 p-3 text-center">
+            {{i.current_balance|intcomma}}
+            </td>
+            <td class="border-1 border-zinc-700 p-3 text-center text-green-600">
+                &#x20A6;{{i.total_value|floatformat:2|intcomma}}
+            </td>
+            </tr>
+            {%endfor%} 
+    
+</tbody>
+</table>
+</div>     
+</div>
+<div class="mt-1 flex items-center justify-between">
+    <div>
+        <p class="text-xs text-gray-700 mt-2">
+            Showing page <span class="font-medium">{{ po.number }}</span> of <span class="font-medium">{{ po.paginator.num_pages }}</span>
+        </p>
+    </div>
+    <div class="mt-1 flex items-center justify-between">
+        <div class="flex-1 flex justify-end">
+            {% if po.has_previous %}
+            <a href="?page=1{% if request.GET.q %}&q={{ request.GET.q }}{% endif %}{% if request.GET.date_from %}&date_from={{ request.GET.date_from }}{% endif %}{% if request.GET.date_to %}&date_to={{ request.GET.date_to }}{% endif %}" 
+               class="relative inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-white bg-gray-600 hover:bg-gray-50 hover:text-gray-600 mr-3">
+                <i class="fas fa-angle-double-left"></i>
+            </a>
+            <a href="?page={{ po.previous_page_number }}{% if request.GET.q %}&q={{ request.GET.q }}{% endif %}{% if request.GET.date_from %}&date_from={{ request.GET.date_from }}{% endif %}{% if request.GET.date_to %}&date_to={{ request.GET.date_to }}{% endif %}"
+               class="relative inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-white bg-gray-600 hover:bg-gray-50 hover:text-gray-600 mr-3">
+                <i class="fas fa-angle-left"></i>
+            </a>
+            {% endif %}
+            
+            {% if po.has_next %}
+            <a href="?page={{ po.next_page_number }}{% if request.GET.q %}&q={{ request.GET.q }}{% endif %}{% if request.GET.date_from %}&date_from={{ request.GET.date_from }}{% endif %}{% if request.GET.date_to %}&date_to={{ request.GET.date_to }}{% endif %}"
+               class="relative inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-white bg-gray-600 hover:bg-gray-50 hover:text-gray-600">
+                <i class="fas fa-angle-right"></i>
+            </a>
+            <a href="?page={{ po.paginator.num_pages }}{% if request.GET.q %}&q={{ request.GET.q }}{% endif %}{% if request.GET.date_from %}&date_from={{ request.GET.date_from }}{% endif %}{% if request.GET.date_to %}&date_to={{ request.GET.date_to }}{% endif %}"
+               class="relative inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-white bg-gray-600 hover:bg-gray-50 hover:text-gray-600 ml-3">
+                <i class="fas fa-angle-double-right"></i>
+            </a>
+            {% endif %}
+        </div>
+     </div>
+</div>     
+</div>     
+{% endblock %}

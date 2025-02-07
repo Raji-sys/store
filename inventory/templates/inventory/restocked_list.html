@@ -1,0 +1,137 @@
+{% extends "base.html" %}
+{% load humanize %}
+{% load static %}
+
+{% block title %}Restocking Record{% endblock %}
+
+{% block content %}
+<div class="mx-1 py-2 md:mx-auto">
+    <div class="flex justify-center p-4 gap-4 text-xl">
+        <div>
+            <a href="{% url 'index' %}" ><i class="fa-solid fa-arrow-left"></i></a>
+        </div>
+        <div>
+            <h1 class="text-lg  text-blue-800 text-center uppercase">Item Restocking</h1>
+        </div>
+    </div>
+    <div class=" flex flex-wrap justify-center items-center mb-1 space-x-2 gap-2">
+            <a href="{% url 'restock' %}" class="inline-flex items-center px-4 py-2 border border-transparent text-xs font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+                <i class="fas fa-plus mr-2 fa-xl"></i> Restock
+            </a>
+            <a href="{% url 'restock_report' %}" class="inline-flex items-center px-4 py-2 border border-transparent text-xs font-medium rounded-md text-white bg-teal-600 hover:bg-teal-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-teal-500">
+                <i class="fas fa-file mr-2 fa-xl"></i> Report
+            </a>
+  <!-- Search Form -->
+  <form method="get" class="flex flex-col sm:flex-row items-center space-y-2 sm:space-y-0 sm:space-x-2">
+    <div class="flex flex-col sm:flex-row items-center space-y-2 sm:space-y-0 sm:space-x-2 w-full sm:w-auto">
+        <div class="w-full sm:w-auto">
+            <label for="q" class="sr-only">Search</label>
+            <input type="text" name="q" id="q" value="{{ query|default_if_none:'' }}" placeholder="Search..."
+                class="focus:ring-amber-500 focus:border-amber-500 block shadow-sm text-xs border-gray-300 rounded-md w-full sm:w-60">
+        </div>
+        <div class="flex space-x-2 w-full sm:w-auto">
+            <input type="date" name="date_from" value="{{ date_from|default:'' }}" 
+                class="focus:ring-amber-500 focus:border-amber-500 block shadow-sm text-xs border-gray-300 rounded-md w-full sm:w-auto"
+                placeholder="From Date">
+            <input type="date" name="date_to" value="{{ date_to|default:'' }}" 
+                class="focus:ring-amber-500 focus:border-amber-500 block shadow-sm text-xs border-gray-300 rounded-md w-full sm:w-auto"
+                placeholder="To Date">
+        </div>
+    </div>
+    
+    <div class="flex space-x-2">
+        <button type="submit" class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-cyan-600 hover:bg-cyan-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-cyan-500">
+            <i class="fas fa-search"></i>
+        </button>
+        
+        {% if request.GET.urlencode %}
+        <a href="?" class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-amber-500 hover:bg-amber-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-amber-500">
+            <i class="fas fa-rotate"></i>
+        </a>
+        <a href="{% url 'restock_pdf' %}?{% if request.GET.q %}q={{ request.GET.q }}{% endif %}{% if request.GET.date_from %}&date_from={{ request.GET.date_from }}{% endif %}{% if request.GET.date_to %}&date_to={{ request.GET.date_to }}{% endif %}" 
+           class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-rose-600 hover:bg-rose-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-rose-500">
+            <i class="fa-solid fa-file-pdf"></i>
+        </a>
+        {% endif %}
+    </div>
+</form>
+    </div>
+
+    <div class="bg-white shadow overflow-hidden sm:rounded-lg">
+        <div class="overflow-x-auto max-h-[70vh]">
+            <table class="min-w-full divide-y divide-gray-200">
+                <thead class="bg-blue-400">
+                    <tr class="text-xs text-left">
+                        <th scope="col" class="px-3 py-2 text-xs font-medium text-gray-900 uppercase tracking-wider">#</th>
+                        <th scope="col" class="px-3 py-2 text-xs font-medium text-gray-900 uppercase tracking-wider">By</th>
+                        <th scope="col" class="px-3 py-2 text-xs font-medium text-gray-900 uppercase tracking-wider">Unit</th>
+                        <th scope="col" class="px-3 py-2 text-xs font-medium text-gray-900 uppercase tracking-wider">Item</th>
+                        <th scope="col" class="px-3 py-2 text-xs font-medium text-gray-900 uppercase tracking-wider">Vendor</th>
+                        <th scope="col" class="px-3 py-2 text-xs font-medium text-gray-900 uppercase tracking-wider">Quantity</th>
+                        <th scope="col" class="px-3 py-2 text-xs font-medium text-gray-900 uppercase tracking-wider">Invoice Number</th>
+                        <th scope="col" class="px-3 py-2 text-xs font-medium text-gray-900 uppercase tracking-wider">Store receiving voucher</th>
+                        <th scope="col" class="px-3 py-2 text-xs font-medium text-gray-900 uppercase tracking-wider">Date</th>
+                        <th scope="col" class="px-3 py-2 text-xs font-medium text-gray-900 uppercase tracking-wider">Expiry Date</th>
+                        <th scope="col" class="px-3 py-2 text-xs font-medium text-gray-900 uppercase tracking-wider">action</th>
+                    </tr>
+                </thead>
+                <tbody class="bg-white divide-y divide-gray-200">
+                    {% for r in po %}
+                    <tr class="{% cycle 'bg-white' 'bg-blue-50' %} hover:bg-blue-50 transition duration-150 ease-in-out text-xs">
+                        <td class="px-3 py-4 whitespace-nowrap  text-gray-500">{{ forloop.counter }}</td>
+                        <td class="px-3 py-4 whitespace-nowrap  text-gray-500">{{ r.restocked_by|default_if_none:'N/A' }}</td>
+                        <td class="px-3 py-4 whitespace-nowrap  text-gray-500">{{ r.unit|default_if_none:'N/A' }}</td>
+                        <td class="px-3 py-4 whitespace-nowrap  font-medium text-gray-900">{{ r.item|default_if_none:'N/A'|upper }}</td>
+                        <td class="px-3 py-4 whitespace-nowrap  font-medium text-gray-900">{{ r.item.vendor|default_if_none:'N/A'|upper }}</td>
+                        <td class="px-3 py-4 whitespace-nowrap  font-medium text-gray-900">{{ r.quantity_purchased }}</td>
+                        <td class="px-3 py-4 whitespace-nowrap  text-gray-500">{{ r.invoice_number|default_if_none:'N/A'|upper }}</td>
+                        <td class="px-3 py-4 whitespace-nowrap  text-gray-500">{{ r.store_receiving_voucher|default_if_none:'N/A'|upper }}</td>
+                        <td class="px-3 py-4 whitespace-nowrap  text-gray-500">{{ r.purchase_date|default_if_none:'N/A' }}</td>
+                        <td class="px-3 py-4 whitespace-nowrap  text-gray-500">{{ r.expiration_date|default_if_none:'N/A' }}</td>
+                        <td class="px-3 py-4 text-center whitespace-nowrap text-gray-500">
+                            <a href="{% url 'update_restock' r.id %}" class="mr-2"><i class="fa fa-solid fa-edit fa-lg text-blue-600"></i></a>
+                            <a href="{% url 'delete_restock' r.id %}"><i class="fa fa-solid fa-xmark-square fa-lg text-rose-600"></i></a>
+                        </td>
+
+                    </tr>
+
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <div class="mt-1 flex items-center justify-between">
+        <div>
+            <p class="text-xs text-gray-700 mt-2">
+                Showing page <span class="font-medium">{{ po.number }}</span> of <span class="font-medium">{{ po.paginator.num_pages }}</span>
+            </p>
+        </div>
+        <div class="mt-1 flex items-center justify-between">
+            <div class="flex-1 flex justify-end">
+                {% if po.has_previous %}
+                <a href="?page=1{% if request.GET.q %}&q={{ request.GET.q }}{% endif %}{% if request.GET.date_from %}&date_from={{ request.GET.date_from }}{% endif %}{% if request.GET.date_to %}&date_to={{ request.GET.date_to }}{% endif %}" 
+                   class="relative inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-gray-50 hover:text-blue-600 mr-3">
+                    <i class="fas fa-angle-double-left"></i>
+                </a>
+                <a href="?page={{ po.previous_page_number }}{% if request.GET.q %}&q={{ request.GET.q }}{% endif %}{% if request.GET.date_from %}&date_from={{ request.GET.date_from }}{% endif %}{% if request.GET.date_to %}&date_to={{ request.GET.date_to }}{% endif %}"
+                   class="relative inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-gray-50 hover:text-blue-600 mr-3">
+                    <i class="fas fa-angle-left"></i>
+                </a>
+                {% endif %}
+                
+                {% if po.has_next %}
+                <a href="?page={{ po.next_page_number }}{% if request.GET.q %}&q={{ request.GET.q }}{% endif %}{% if request.GET.date_from %}&date_from={{ request.GET.date_from }}{% endif %}{% if request.GET.date_to %}&date_to={{ request.GET.date_to }}{% endif %}"
+                   class="relative inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-gray-50 hover:text-blue-600">
+                    <i class="fas fa-angle-right"></i>
+                </a>
+                <a href="?page={{ po.paginator.num_pages }}{% if request.GET.q %}&q={{ request.GET.q }}{% endif %}{% if request.GET.date_from %}&date_from={{ request.GET.date_from }}{% endif %}{% if request.GET.date_to %}&date_to={{ request.GET.date_to }}{% endif %}"
+                   class="relative inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-gray-50 hover:text-blue-600 ml-3">
+                    <i class="fas fa-angle-double-right"></i>
+                </a>
+                {% endif %}
+            </div>
+         </div>
+    </div>
+</div>
+{% endblock %}
