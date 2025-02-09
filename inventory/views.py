@@ -1,6 +1,6 @@
 from .filters import ItemFilter, RecordFilter, RestockFilter
 from .forms import ItemForm, RecordForm, ReStockForm
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.views import LoginView
 from django.urls import reverse_lazy
 from django.contrib.auth.decorators import login_required, user_passes_test
@@ -20,10 +20,15 @@ from django.db import transaction
 from django.core.exceptions import PermissionDenied, ValidationError
 from django.db.models import Q, Sum
 from django.views.generic import UpdateView
-from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from datetime import datetime
 from django.forms import modelformset_factory
 from django.views.generic import DeleteView
+
+
+class HODRequiredMixin(LoginRequiredMixin,UserPassesTestMixin):
+    def test_func(self):
+        return self.request.user.groups.filter(name='HOD').exists()
 
 # -------------------------------------------------------------------
 # PDF Utility Functions
@@ -193,7 +198,7 @@ def item_pdf(request):
     response['Content-Disposition'] = f'attachment; filename="gen_by_{request.user}_{filename}"'
     return response
 
-class ItemUpdateView(LoginRequiredMixin, UpdateView):
+class ItemUpdateView(HODRequiredMixin, UpdateView):
     model = Item
     form_class = ItemForm
     template_name = 'create_item.html'
@@ -313,7 +318,7 @@ def create_record(request):
     return render(request, 'inventory/create_record.html', {'formset': formset})
 
 
-class RecordUpdateView(LoginRequiredMixin, UpdateView):
+class RecordUpdateView(HODRequiredMixin, UpdateView):
     model = Record
     form_class = RecordForm
     template_name = 'inventory/update_record.html'
@@ -350,7 +355,7 @@ def restock(request):
     return render(request, 'inventory/restock.html', {'form': form})
 
 
-class RestockUpdateView(LoginRequiredMixin, UpdateView):
+class RestockUpdateView(HODRequiredMixin,UpdateView):
     model = ReStock
     form_class = ReStockForm
     template_name = 'inventory/restock.html'
@@ -460,7 +465,7 @@ def get_items_for_unit(request, unit_id):
     """
     Returns a JSON response with items for the given unit id.
     """
-    items = Item.objects.filter(unit_id=unit_id)
+    items = Item.objects.filter(unit_id=unit_id).order_by('name')
     item_list = [
         {
             'id': item.id,
@@ -472,7 +477,7 @@ def get_items_for_unit(request, unit_id):
     return JsonResponse({'items': item_list})
 
 
-class ReStockDeleteView(LoginRequiredMixin, DeleteView):
+class ReStockDeleteView(HODRequiredMixin,UpdateView):
     model = ReStock
     template_name = "inventory/restock_delete.html"
     success_url = reverse_lazy("restocked")  
@@ -488,7 +493,7 @@ class ReStockDeleteView(LoginRequiredMixin, DeleteView):
         return super().form_valid(form)
 
 
-class RecordDeleteView(LoginRequiredMixin, DeleteView):
+class RecordDeleteView(HODRequiredMixin,UpdateView):
     model = Record
     template_name = "inventory/record_delete.html"
     success_url = reverse_lazy("record")  
@@ -536,7 +541,6 @@ def item_report_pdf(request):
     response = StreamingHttpResponse(pdf_generator(pdf_buffer), content_type='application/pdf')
     response['Content-Disposition'] = f'attachment; filename="Report__{filename}"'
     return response
-
 
 
 @login_required
