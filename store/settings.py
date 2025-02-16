@@ -38,14 +38,28 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
+    "django.middleware.cache.UpdateCacheMiddleware",
     'django.contrib.sessions.middleware.SessionMiddleware',
-    'django.middleware.common.CommonMiddleware',
+    "django.middleware.common.CommonMiddleware",
+    "django.middleware.cache.FetchFromCacheMiddleware",
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'simple_history.middleware.HistoryRequestMiddleware',
 ]
+
+CACHES = {
+    "default": {
+        "BACKEND": "django.core.cache.backends.redis.RedisCache",
+        "LOCATION": "redis://127.0.0.1:6379",
+    }
+}
+
+
+# # Cache settings
+CACHE_MIDDLEWARE_SECONDS = 60 * 60
+CACHE_MIDDLEWARE_KEY_PREFIX = "store"
+CACHE_MIDDLEWARE_ALIAS = "default"
 
 ROOT_URLCONF = 'store.urls'
 
@@ -129,8 +143,6 @@ DATETIME_INPUT_FORMAT=['%d-%m-%Y']
 LOGIN_REDIRECT_URL = '/'
 LOGIN_URL="/login/"
 
-# Static files (CSS, JavaScript, Images)
-# https://docs.djangoproject.com/en/4.2/howto/static-files/
 
 STATIC_URL = '/static/'
 STATIC_ROOT=os.path.join(BASE_DIR,'store/')
@@ -138,6 +150,14 @@ STATIC_ROOT=os.path.join(BASE_DIR,'store/')
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR,'media/')
+
+SESSION_ENGINE = "django.contrib.sessions.backends.cache"
+SESSION_CACHE_ALIAS = "default"
+
+SESSION_COOKIE_AGE = 3600  
+SESSION_EXPIRE_AT_BROWSER_CLOSE = True  # Log out when browser closes
+SESSION_SAVE_EVERY_REQUEST = True  # Reset session timeout on activity
+SESSION_COOKIE_SECURE = False  # Set to True in production with HTTPS
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
