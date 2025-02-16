@@ -128,6 +128,7 @@ h1 {
                 <th class="small-column">#</th>
                 <th class="">UNIT</th>
                 <th class="">ITEM</th>
+                <th class="">VENDOR</th>
                 <th class="">QTY</th>
                 <th class="">INVOICE NUMBER</th>
                 <th class="">SRV</th>
@@ -144,6 +145,9 @@ h1 {
             </td>
             <td>
                 {{r.item|default_if_none:''|upper}}
+            </td>
+            <td>
+                {{r.vendor_name|default_if_none:''|upper}}
             </td>
             <td>
                 {{r.quantity_purchased|default_if_none:''|upper}}

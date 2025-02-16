@@ -38,7 +38,7 @@ class RecordFilter(django_filters.FilterSet):
 class RestockFilter(django_filters.FilterSet):
     item = django_filters.CharFilter(label="ITEM",field_name='item__name', lookup_expr='icontains')
     unit = django_filters.CharFilter(label="STORE UNIT",field_name='unit__name', lookup_expr='icontains')
-    vendor = django_filters.CharFilter(label="VENDOR",field_name='item__vendor', lookup_expr='icontains')
+    vendor_name = django_filters.CharFilter(label="VENDOR",field_name='vendor_name', lookup_expr='icontains')
     restocked_by = django_filters.CharFilter(label="BY",field_name='restocked_by__username', lookup_expr='icontains')
     expiration_date1 = django_filters.DateFilter(label="EXPIRY DATE FROM",field_name='expiration_date',lookup_expr='gte',widget=forms.DateInput(attrs={'type':'date'}),)
     expiration_date2 = django_filters.DateFilter(label="EXPIRY DATE TO",field_name='expiration_date',lookup_expr='lte',widget=forms.DateInput(attrs={'type':'date'}),)

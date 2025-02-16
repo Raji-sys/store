@@ -395,7 +395,7 @@ def restocked_list(request):
     if query:
         restock_qs = restock_qs.filter(
             Q(item__name__icontains=query) |
-            Q(item__vendor__icontains=query) |
+            Q(vendor_name__icontains=query) |
             Q(unit__name__icontains=query) |
             Q(restocked_by__username__icontains=query) |
             Q(invoice_number__icontains=query) |
@@ -429,7 +429,7 @@ def restock_pdf(request):
     if query:
         restock_qs = restock_qs.filter(
             Q(item__name__icontains=query) |
-            Q(item__vendor__icontains=query) |
+            Q(vendor_name__icontains=query) |
             Q(unit__name__icontains=query) |
             Q(restocked_by__username__icontains=query) |
             Q(invoice_number__icontains=query) |

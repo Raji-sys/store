@@ -24,9 +24,9 @@ from simple_history.admin import SimpleHistoryAdmin
 # Your regular ReStock admin registration
 @admin.register(ReStock)
 class ReStockAdmin(SimpleHistoryAdmin):
-    search_fields = ['item__name']
-    list_display = ('item', 'quantity_purchased', 'purchase_date', 'expiration_date', 'invoice_number', 'store_receiving_voucher')
-    autocomplete_fields = ['item']
+    search_fields = ['item__name','vendor_name']
+    list_display = ('item', 'vendor_name','quantity_purchased', 'purchase_date', 'expiration_date', 'invoice_number', 'store_receiving_voucher')
+    autocomplete_fields = ['item',]
     history_list_display = ['quantity_purchased', 'purchase_date', 'expiration_date']
 
 # Get the automatically created historical model for ReStock
@@ -37,6 +37,7 @@ class HistoricalReStockAdmin(admin.ModelAdmin):
     list_display = (
         'id',
         'item',
+        'vendor_name',
         'quantity_purchased',
         'purchase_date',
         'expiration_date',
@@ -47,7 +48,7 @@ class HistoricalReStockAdmin(admin.ModelAdmin):
         'history_type',  # '+' creation, '~' update, '-' deletion
     )
     list_filter = ('history_type', 'history_date', 'history_user')
-    search_fields = ('item__name', 'invoice_number')
+    search_fields = ('item__name','vendor_name', 'invoice_number')
 
     def get_queryset(self, request):
         qs = super().get_queryset(request)

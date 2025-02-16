@@ -51,7 +51,7 @@ class ReStockForm(forms.ModelForm):
     expiration_date=forms.DateField(widget=forms.DateInput(attrs={'type':'date'}))
     class Meta:
         model = ReStock
-        fields = ['unit','item','invoice_number','store_receiving_voucher','quantity_purchased','expiration_date']  
+        fields = ['unit','item','vendor_name','invoice_number','store_receiving_voucher','quantity_purchased','expiration_date']  
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)

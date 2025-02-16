@@ -297,6 +297,7 @@ class ReStock(models.Model):
         Unit, on_delete=models.CASCADE, null=True, blank=True, related_name="restock_items"
     )
     item = models.ForeignKey(Item, on_delete=models.CASCADE)
+    vendor_name = models.CharField(max_length=100, null=True, blank=True)
     quantity_purchased = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True)
     invoice_number = models.IntegerField(null=True, blank=True)  # INTEGER as in old model
     store_receiving_voucher = models.CharField(max_length=30, null=True, blank=True)

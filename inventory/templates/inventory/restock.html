@@ -39,6 +39,15 @@
                 {% endif %}
               </div>
               <div class="space-y-1">
+                <label class="text-xs font-medium text-gray-700">Vendor</label>
+                <div class="mt-1">
+                  {{ form.vendor_name }}
+                </div>
+                {% if form.vendor_name.errors %}
+                  <p class="text-red-600 text-xs mt-1">{{ form.vendor_name.errors.0 }}</p>
+                {% endif %}
+              </div>
+              <div class="space-y-1">
                 <label class="block text-xs font-medium text-gray-700">Qty</label>
                 <div class="mt-1">
                   {{ form.quantity_purchased }}
