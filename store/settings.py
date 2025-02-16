@@ -34,6 +34,7 @@ INSTALLED_APPS = [
     'django_fastdev',
     'import_export',
     'simple_history',
+    'redisboard',
 ]
 
 MIDDLEWARE = [
