@@ -49,18 +49,18 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-CACHES = {
-    "default": {
-        "BACKEND": "django.core.cache.backends.redis.RedisCache",
-        "LOCATION": "redis://127.0.0.1:6379",
-    }
-}
+# CACHES = {
+#     "default": {
+#         "BACKEND": "django.core.cache.backends.redis.RedisCache",
+#         "LOCATION": "redis://127.0.0.1:6379",
+#     }
+# }
 
 
-# # Cache settings
-CACHE_MIDDLEWARE_SECONDS = 60 * 60
-CACHE_MIDDLEWARE_KEY_PREFIX = "store"
-CACHE_MIDDLEWARE_ALIAS = "default"
+# # # Cache settings
+# CACHE_MIDDLEWARE_SECONDS = 60 * 60
+# CACHE_MIDDLEWARE_KEY_PREFIX = "store"
+# CACHE_MIDDLEWARE_ALIAS = "default"
 
 ROOT_URLCONF = 'store.urls'
 
