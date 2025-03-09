@@ -25,7 +25,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'django.contrib.humanize',
     'tailwind',
-    # 'theme',
+    'theme',
     'fontawesomefree',
     'django_filters',
     'django_fastdev',
