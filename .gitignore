@@ -1,5 +1,3 @@
-static/
-
 # Ignore virtual environment directories
 venv/
 bin/
