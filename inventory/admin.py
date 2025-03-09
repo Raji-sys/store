@@ -14,18 +14,20 @@ class UnitAdmin(ImportMixin,admin.ModelAdmin):
     list_display = ['name']
     list_filter = ['name']
     search_fields = ['name']
+
+@admin.register(Department)
+class DepartmentAdmin(ImportMixin,admin.ModelAdmin):
+    list_display = ['name']
+    list_filter = ['name']
+    search_fields = ['name']
     
 
-
-from django.contrib import admin
-from .models import ReStock
-from simple_history.admin import SimpleHistoryAdmin
 
 # Your regular ReStock admin registration
 @admin.register(ReStock)
 class ReStockAdmin(SimpleHistoryAdmin):
     search_fields = ['item__name','vendor_name']
-    list_display = ('item', 'vendor_name','quantity_purchased', 'purchase_date', 'expiration_date', 'invoice_number', 'store_receiving_voucher')
+    list_display = ('item', 'vendor_name','quantity_purchased', 'purchase_date', 'expiration_date', )
     autocomplete_fields = ['item',]
     history_list_display = ['quantity_purchased', 'purchase_date', 'expiration_date']
 
@@ -41,8 +43,6 @@ class HistoricalReStockAdmin(admin.ModelAdmin):
         'quantity_purchased',
         'purchase_date',
         'expiration_date',
-        'invoice_number',
-        'store_receiving_voucher',
         'history_date',
         'history_user',
         'history_type',  # '+' creation, '~' update, '-' deletion
@@ -57,9 +57,9 @@ class HistoricalReStockAdmin(admin.ModelAdmin):
 
 @admin.register(Item)
 class ItemAdmin(ImportMixin, admin.ModelAdmin):
-    readonly_fields = ('unit_price', )
+    # readonly_fields = ('unit_price', )
     exclude = ('added_by',)  
-    list_display = ['name', 'total_value', 'total_purchased_quantity','total_issued', 'vendor', 'invoice_number', 'store_receiving_voucher', 'unit_price', 'unit', 'current_balance', 'expiration_date', 'added_by', 'date_added', 'updated_at']
+    list_display = ['name', 'total_value', 'total_purchased_quantity','total_issued', 'vendor', 'unit_price', 'unit', 'current_balance', 'expiration_date', 'added_by', 'date_added', 'updated_at']
     list_filter = ['date_added', 'unit', 'added_by']
     search_fields = ['name']
     list_per_page = 10
@@ -81,7 +81,7 @@ class ItemAdmin(ImportMixin, admin.ModelAdmin):
 @admin.register(Record)
 class RecordAdmin(SimpleHistoryAdmin):
     exclude = ('issued_by', 'balance')
-    list_display = ['item', 'item_date', 'issued_to', 'issued_by_username', 'quantity', 'siv', 'requisition_number', 'balance', 'date_issued', 'updated_at']
+    list_display = ['item', 'item_date', 'issued_to', 'issued_by_username', 'quantity', 'balance', 'date_issued', 'updated_at']
     search_fields = ['item__name', 'issued_to']
     list_filter = ['issued_to', 'item', 'item__vendor', 'item__date_added']
     list_per_page = 10

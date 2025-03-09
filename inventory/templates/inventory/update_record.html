@@ -1,15 +1,17 @@
 {% extends 'base.html' %}
 {% block title %}NOHD STORE{% endblock %}
 {% block content %}
-    <div class="bg-amber-100 shadow-xl rounded-lg overflow-hidden m-2 mx-auto px-20">
-      <div class="bg-amber-600 flex justify-center gap-4 text-white align-middle text-xl py-2">
-        <div>
-          <a href="{% url 'record' %}" ><i class="text-white fa-solid fa-arrow-left"></i></a>    
+<div class="max-w-2xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+    <div class="bg-white shadow-lg rounded-lg overflow-hidden">
+        <div class="bg-gradient-to-r from-amber-500 to-amber-700 flex justify-center items-center py-2">
+            <div class="flex items-center">
+                <a href="{% url 'record' %}" class="mr-2">
+                    <i class="text-white fa-solid fa-arrow-left"></i>
+                </a>
+                <h2 class="text-white uppercase text-lg m-0">Update Record</h2>
+            </div>
         </div>
-        <div>
-          <h2 class=" text-white text-center uppercase text-lg">Update Item Record</h2>
-        </div>
-      </div>
+
 <!-- update_record.html -->
 <form id="recordForm" action="" method="POST" enctype="multipart/form-data" class="p-3 text-xs text-center">
     {% csrf_token %}
@@ -22,7 +24,7 @@
     </div>
 
     <div class="grid grid-cols-1 gap-2">
-        <div class="grid grid-cols-3 lg:grid-cols-6 gap-4">
+        <div class="grid grid-cols-1  gap-4">
             <div class="space-y-1">
                 <label class="block text-xs font-medium text-gray-700">UNIT</label>
                 {{ form.unit }}
@@ -62,26 +64,6 @@
                     </div>
                 {% endif %}
             </div>
-
-            <div class="space-y-1">
-                <label class="block text-xs font-medium text-gray-700">SIV</label>
-                {{ form.siv }}
-                {% if form.siv.errors %}
-                    <div class="text-red-600">
-                        {{ form.siv.errors.0 }}
-                    </div>
-                {% endif %}
-            </div>
-
-            <div class="space-y-1">
-                <label class="block text-xs font-medium text-gray-700">REQUISITION NUMBER</label>
-                {{ form.requisition_number }}
-                {% if form.requisition_number.errors %}
-                    <div class="text-red-600">
-                        {{ form.requisition_number.errors.0 }}
-                    </div>
-                {% endif %}
-            </div>
         </div>
     </div>
 
@@ -91,6 +73,7 @@
                bg-green-500 text-white py-2 px-6 rounded shadow-lg hover:shadow-xl">
     </div>
 </form>
+</div>
 </div>
 <script>
 function initializePage() {

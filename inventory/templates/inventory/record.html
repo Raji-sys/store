@@ -70,8 +70,6 @@
                     <th class="p-3">VENDOR</th>
                     <th class="p-3">ISSUED TO</th>
                     <th class="p-3">ISSUED BY</th>
-                    <th class="p-3">SIV</th>
-                    <th class="p-3">REQUISITION NUMBER</th>
                     <th class="p-3">QTY ISSUED</th>
                     <th class="p-3">CURRENT BALANCE</th>
                     <th class="p-3">DATE ISSUED</th>
@@ -87,8 +85,6 @@
                     <td class="p-3 text-center">{{ r.item.vendor|default_if_none:'' }}</td>
                     <td class="p-3 text-center">{{ r.issued_to|default_if_none:'' }}</td>
                     <td class="p-3 text-center">{{ r.issued_by|default_if_none:'' }}</td>
-                    <td class="p-3 text-center">{{ r.siv|default_if_none:'' }}</td>
-                    <td class="p-3 text-center">{{ r.requisition_number|default_if_none:'' }}</td>
                     <td class="p-3 text-center">{{ r.quantity|default_if_none:'' }}</td>
                     <td class="p-3 text-center">{{ r.balance|default_if_none:'' }}</td>
                     <td class="p-3 text-center">{{ r.date_issued|default_if_none:'' }}</td>

@@ -36,7 +36,7 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
-    "django.middleware.cache.UpdateCacheMiddleware",
+    # "django.middleware.cache.UpdateCacheMiddleware",
     'django.contrib.sessions.middleware.SessionMiddleware',
     "django.middleware.common.CommonMiddleware",
     "django.middleware.cache.FetchFromCacheMiddleware",
@@ -155,8 +155,8 @@ STATIC_ROOT=os.path.join(BASE_DIR,'static')
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR,'media/')
 
-SESSION_ENGINE = "django.contrib.sessions.backends.cache"
-SESSION_CACHE_ALIAS = "default"
+# SESSION_ENGINE = "django.contrib.sessions.backends.cache"
+# SESSION_CACHE_ALIAS = "default"
 
 SESSION_COOKIE_AGE = 3600  
 SESSION_EXPIRE_AT_BROWSER_CLOSE = True  # Log out when browser closes

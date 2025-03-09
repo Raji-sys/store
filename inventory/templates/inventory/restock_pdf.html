@@ -115,7 +115,7 @@ h1 {
 </head>
 <body>
     <div class="logo-container">
-        <img class="logo-image" src="{% static "images/green.jpg" %}" alt="">
+        <img class="logo-image" src="{% static "images/green.png" %}" alt="">
     </div>
     <h1> RESTOCK REPORT</h1>
     <div class="result">
@@ -130,8 +130,6 @@ h1 {
                 <th class="">ITEM</th>
                 <th class="">VENDOR</th>
                 <th class="">QTY</th>
-                <th class="">INVOICE NUMBER</th>
-                <th class="">SRV</th>
                 <th class="">EXPIRY DATE</th>
                 <th class="">DATE</th>
             </tr>
@@ -151,12 +149,6 @@ h1 {
             </td>
             <td>
                 {{r.quantity_purchased|default_if_none:''|upper}}
-            </td>
-            <td>
-                {{r.invoice_number|default_if_none:''|upper}}
-            </td>
-            <td>
-            {{r.store_receiving_voucher|default_if_none:''|upper}}
             </td>
             <td class="text-center">
                 {{r.expiration_date|default_if_none:''}}<br>

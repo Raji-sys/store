@@ -1,104 +1,108 @@
 {% extends 'base.html' %}
 {% block title %}Item Restocking{% endblock %}
 {% block content %}
-<div class="py-4 px-4 sm:px-6 lg:px-6 max-w-7xl mx-auto">
-    <div class="bg-blue-100 shadow-xl rounded-lg overflow-hidden">
-      <div class="bg-blue-600 py-3 flex justify-center gap-4 text-xl text-white">
-        <div>
-          <a href="{% url 'restocked' %}" ><i class="text-white fa-solid fa-arrow-left"></i></a>    
-        </div>
-        <div>
-          <h2 class="text-lg  text-white text-center uppercase">Restock items</h2>
-        </div>
+<div class="max-w-2xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+  <div class="bg-white shadow-lg rounded-lg overflow-hidden">
+      <div class="bg-gradient-to-r from-blue-500 to-blue-700 flex justify-center items-center py-2">
+          <div class="flex items-center">
+              <a href="{% url 'restocked' %}" class="mr-2">
+                  <i class="text-white fa-solid fa-arrow-left"></i>
+              </a>
+              <h2 class="text-white uppercase text-lg m-0">Restock Items</h2>
+          </div>
       </div>
-      <form id="recordForm" action="" method="POST" enctype="multipart/form-data" class="p-3 text-xs text-center">
-        {% csrf_token %}
-          <div class="mb-4 last:mb-0">
-            {% if form.non_field_errors %}
-              <div class="text-red-600 text-xs mb-4">
-                {{ form.non_field_errors.0 }}
-              </div>
-            {% endif %}
-            <div class="grid grid-cols-1 gap-4 md:grid-cols-3">
-              <div class="space-y-1">
-                <label class="block text-xs font-medium text-gray-700">Unit</label>
-                <div class="mt-1">
-                  {{ form.unit }}
-                </div>
-                {% if form.unit.errors %}
-                  <p class="text-red-600 text-xs mt-1">{{ form.unit.errors.0 }}</p>
-                {% endif %}
-              </div>
-              <div class="space-y-1">
-                <label class="text-xs font-medium text-gray-700">Item</label>
-                <div class="mt-1">
-                  {{ form.item }}
-                </div>
-                {% if form.item.errors %}
-                  <p class="text-red-600 text-xs mt-1">{{ form.item.errors.0 }}</p>
-                {% endif %}
-              </div>
-              <div class="space-y-1">
-                <label class="text-xs font-medium text-gray-700">Vendor</label>
-                <div class="mt-1">
-                  {{ form.vendor_name }}
-                </div>
-                {% if form.vendor_name.errors %}
-                  <p class="text-red-600 text-xs mt-1">{{ form.vendor_name.errors.0 }}</p>
-                {% endif %}
-              </div>
-              <div class="space-y-1">
-                <label class="block text-xs font-medium text-gray-700">Qty</label>
-                <div class="mt-1">
-                  {{ form.quantity_purchased }}
-                </div>
-                {% if form.quantity_purchased.errors %}
-                  <p class="text-red-600 text-xs mt-1">{{ form.quantity_purchased.errors.0 }}</p>
-                {% endif %}
-              </div>
 
-              <div class="space-y-1">
-                <label class="block text-sm font-medium text-gray-700">Invoice Number</label>
-                <div class="mt-1">
-                    {{ form.invoice_number }}
-                </div>
-                {% if form.invoice_number.errors %}
-                <p class="text-red-600 text-xs mt-1">{{ form.invoice_number.errors.0 }}</p>
-                {% endif %} 
-             </div>
-
-             <div class="space-y-1">
-              <label class="block text-sm font-medium text-gray-700">SRV</label>
-              <div class="mt-1">
-            {{ form.store_receiving_voucher }}
-            </div>
-            {% if form.store_receiving_voucher.errors %}
-                <div class="text-red-600">
-                    {{ form.store_receiving_voucher.errors.0 }}
-                </div>
-            {% endif %}
-                </div>
-              <div class="space-y-1">
-                <label class="block text-sm font-medium text-gray-700">Expiry Date</label>
-                <div class="mt-1">
-                    {{ form.expiration_date }}
-                </div>
-                {% if form.expiration_date.errors %}
-                <p class="text-red-600 text-xs mt-1">{{ form.expiration_date.errors.0 }}</p>
-                {% endif %}
-            </div>
-
+      <form id="recordForm" action="" method="POST" enctype="multipart/form-data" class="px-6 py-8 bg-blue-50 text-xs">
+          {% csrf_token %}
+          
+          {% if form.non_field_errors %}
+          <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mb-6 text-center" role="alert">
+              <strong class="">Error!</strong>
+              <span class="block sm:inline">{{ form.non_field_errors.0 }}</span>
           </div>
+          {% endif %}
+
+          <div class="grid grid-cols-1 gap-6">
+              <div class="grid grid-cols-1  gap-4">
+                  <div class="form-group">
+                      <label class="block text-xs font-medium text-gray-700 uppercase mb-1 text-center">
+                          Unit
+                      </label>
+                      <div class="flex justify-center">
+                          {{ form.unit }}
+                      </div>
+                      {% if form.unit.errors %}
+                      <p class="mt-2 text-sm text-red-600 text-center">{{ form.unit.errors.0 }}</p>
+                      {% endif %}
+                  </div>
+
+                  <div class="form-group">
+                      <label class="block text-xs font-medium text-gray-700 uppercase mb-1 text-center">
+                          Item
+                      </label>
+                      <div class="flex justify-center">
+                          {{ form.item }}
+                      </div>
+                      {% if form.item.errors %}
+                      <p class="mt-2 text-sm text-red-600 text-center">{{ form.item.errors.0 }}</p>
+                      {% endif %}
+                  </div>
+
+                  <div class="form-group">
+                      <label class="block text-xs font-medium text-gray-700 uppercase mb-1 text-center">
+                          Vendor
+                      </label>
+                      <div class="flex justify-center">
+                          {{ form.vendor_name }}
+                      </div>
+                      {% if form.vendor_name.errors %}
+                      <p class="mt-2 text-sm text-red-600 text-center">{{ form.vendor_name.errors.0 }}</p>
+                      {% endif %}
+                  </div>
+              </div>
+              
+                  <div class="form-group">
+                      <label class="block text-xs font-medium text-gray-700 uppercase mb-1 text-center">
+                          Qty
+                      </label>
+                      <div class="flex justify-center">
+                          {{ form.quantity_purchased }}
+                      </div>
+                      {% if form.quantity_purchased.errors %}
+                      <p class="mt-2 text-sm text-red-600 text-center">{{ form.quantity_purchased.errors.0 }}</p>
+                      {% endif %}
+                  </div>
+
+                  <div class="form-group">
+                      <label class="block text-xs font-medium text-gray-700 uppercase mb-1 text-center">
+                          Expiry Date
+                      </label>
+                      <div class="flex justify-center">
+                          {{ form.expiration_date }}
+                      </div>
+                      {% if form.expiration_date.errors %}
+                      <p class="mt-2 text-sm text-red-600 text-center">{{ form.expiration_date.errors.0 }}</p>
+                      {% endif %}
+                  </div>
           </div>
-        <div class="mt-3 flex justify-center">
-          <button type="submit" class="text-xs px-6 py-3 bg-blue-600 text-white uppercase rounded-md shadow-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 transition-colors duration-200">
-            Restock
-          </button>
-        </div>
+
+          <div class="mt-8 flex justify-center">
+              <button type="submit" class="text-xs inline-flex items-center px-6 py-3 border border-transparent font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 uppercase transition duration-150 ease-in-out">
+                  Restock
+              </button>
+          </div>
       </form>
-    </div>
-
+  </div>
 </div>
+
+<style>
+  .form-group input[type="text"],
+  .form-group input[type="number"],
+  .form-group input[type="date"],
+  .form-group select {
+      @apply mt-1 focus:ring-blue-500 focus:border-blue-500 block w-full max-w-md shadow-sm sm:text-sm border-gray-300 rounded-md;
+  }
+</style>
 
 <script>
   function initializePage() {

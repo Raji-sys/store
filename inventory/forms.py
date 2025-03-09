@@ -6,7 +6,8 @@ class ItemForm(forms.ModelForm):
     expiration_date=forms.DateField(widget=forms.DateInput(attrs={'type':'date'}))
     class Meta:
         model = Item
-        fields = ['name','vendor','invoice_number','store_receiving_voucher','unit','unit_price','expiration_date','total_purchased_quantity']  
+        # fields = ['name','vendor','invoice_number','store_receiving_voucher','unit','unit_price','expiration_date','total_purchased_quantity']  
+        fields = ['unit','name','vendor','unit_price','expiration_date','total_purchased_quantity']  
 
     def __init__(self, *args, **kwargs):
         super(ItemForm, self).__init__(*args, **kwargs)
@@ -18,7 +19,8 @@ class ItemForm(forms.ModelForm):
 class RecordForm(forms.ModelForm):
     class Meta:
         model = Record
-        fields = ['unit','item','issued_to','quantity','siv','requisition_number']  
+        # fields = ['unit','item','issued_to','quantity','siv','requisition_number']  
+        fields = ['unit','item','issued_to','quantity']  
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -51,7 +53,8 @@ class ReStockForm(forms.ModelForm):
     expiration_date=forms.DateField(widget=forms.DateInput(attrs={'type':'date'}))
     class Meta:
         model = ReStock
-        fields = ['unit','item','vendor_name','invoice_number','store_receiving_voucher','quantity_purchased','expiration_date']  
+        # fields = ['unit','item','vendor_name','invoice_number','store_receiving_voucher','quantity_purchased','expiration_date']  
+        fields = ['unit','item','vendor_name','quantity_purchased','expiration_date']  
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)

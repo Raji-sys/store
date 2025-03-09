@@ -1,16 +1,16 @@
 {% extends 'base.html' %}
 {% block title %}Add New Item{% endblock %}
 {% block content %}
-<div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+<div class="max-w-2xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
     <div class="bg-white shadow-lg rounded-lg overflow-hidden">
-            <div class=" bg-gradient-to-r from-green-700 to-green-900 flex justify-center gap-4 text-xl py-2">
-            <div>
-                <a href="{% url 'list' %}" ><i class="text-white fa-solid fa-arrow-left"></i></a>    
+        <div class="bg-gradient-to-r from-green-700 to-green-900 flex justify-center items-center py-2">
+            <div class="flex items-center">
+                <a href="{% url 'list' %}" class="mr-2">
+                    <i class="text-white fa-solid fa-arrow-left"></i>
+                </a>
+                <h1 class="text-sm text-white uppercase m-0">Add New Item</h1>
             </div>
-            <div>
-                <h1 class="text-lg text-center text-white uppercase">Add New Item</h1>
-            </div>
-        </div>        
+        </div>
         {% if form.non_field_errors %}
         <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative" role="alert">
             <strong class="">Error!</strong>
@@ -20,21 +20,23 @@
 
         <form action="" method="POST" enctype="multipart/form-data" class="px-6 py-8 bg-cyan-50 text-xs">
             {% csrf_token %}
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div class="grid grid-cols-1 gap-6">
                 {% for field in form %}
                 <div class="form-group">
-                    <label for="{{ field.id_for_label }}" class="block text-xs font-medium text-gray-700 uppercase mb-1">
+                    <label for="{{ field.id_for_label }}" class="block text-xs font-medium text-gray-700 uppercase mb-1 text-center">
                         {{ field.label }}
                     </label>
-                    {{ field }}
+                    <div class="flex justify-center">
+                        {{ field }}
+                    </div>
                     {% if field.errors %}
-                    <p class="mt-2 text-sm text-red-600">{{ field.errors.0 }}</p>
+                    <p class="mt-2 text-sm text-red-600 text-center">{{ field.errors.0 }}</p>
                     {% endif %}
                 </div>
                 {% endfor %}
             </div>
             <div class="mt-8 flex justify-center">
-                <button type="submit" class="text-xs inline-flex items-center px-6 py-3 border border-transparent  font-medium rounded-md text-white bg-cyan-600 hover:bg-cyan-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-cyan-500 uppercase transition duration-150 ease-in-out">
+                <button type="submit" class="text-xs inline-flex items-center px-6 py-3 border border-transparent font-medium rounded-md text-white bg-cyan-600 hover:bg-cyan-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-cyan-500 uppercase transition duration-150 ease-in-out">
                     save
                 </button>
             </div>
@@ -47,7 +49,7 @@
     .form-group input[type="number"],
     .form-group input[type="date"],
     .form-group select {
-        @apply mt-1 focus:ring-cyan-500 focus:border-cyan-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md;
+        @apply mt-1 focus:ring-cyan-500 focus:border-cyan-500 block w-full max-w-md shadow-sm sm:text-sm border-gray-300 rounded-md;
     }
 </style>
 {% endblock %}

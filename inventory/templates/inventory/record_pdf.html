@@ -117,7 +117,7 @@ h1 {
 </head>
 <body>  
     <div class="logo-container">
-        <img class="logo-image" src="{% static "images/green.jpg" %}" alt="">
+        <img class="logo-image" src="{% static "images/green.png" %}" alt="">
     </div>
     <h1> RECORD REPORT</h1>
     <div class="result">
@@ -134,8 +134,6 @@ h1 {
                 <th scope="col" class="border-2 border-white p-3">ISSUED TO</th>
                 <th scope="col" class="border-2 border-white p-3">ISSUED BY</th>
                 <th scope="col" class="border-2 border-white p-3">QTY ISSUED</th>
-                <th scope="col" class="border-2 border-white p-3">SIV</th>
-                <th scope="col" class="border-2 border-white p-3">REQUISITION NUMBER</th>
                 <th scope="col" class="border-2 border-white p-3">BALANCE</th>
                 <th scope="col" class="border-2 border-white p-3">DATE ISSUED</th>
             </tr>
@@ -157,16 +155,10 @@ h1 {
             {{r.issued_to|default_if_none:''}}
             </td>
             <td class="border-1 border-amber-700 p-1 text-center">
-            {{r.issued_by}}
+            {{r.issued_by|default_if_none:'N/A'}}
             </td>
             <td class="border-1 border-amber-700 p-3 text-center">
             {{r.quantity|default_if_none:''}}
-            </td>
-            <td class="border-1 border-amber-700 p-3 text-center">
-            {{r.siv|default_if_none:''}}
-            </td>
-            <td class="border-1 border-amber-700 p-3 text-center">
-            {{r.requisition_number|default_if_none:''}}
             </td>
             <td class="border-1 border-amber-700 p-3 text-center">
             {{r.balance|default_if_none:''}}

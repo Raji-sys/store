@@ -68,8 +68,6 @@
                         <th scope="col" class="px-3 py-2 text-xs font-medium text-gray-900 uppercase tracking-wider">Item</th>
                         <th scope="col" class="px-3 py-2 text-xs font-medium text-gray-900 uppercase tracking-wider">Vendor</th>
                         <th scope="col" class="px-3 py-2 text-xs font-medium text-gray-900 uppercase tracking-wider">Quantity</th>
-                        <th scope="col" class="px-3 py-2 text-xs font-medium text-gray-900 uppercase tracking-wider">Invoice Number</th>
-                        <th scope="col" class="px-3 py-2 text-xs font-medium text-gray-900 uppercase tracking-wider">Store receiving voucher</th>
                         <th scope="col" class="px-3 py-2 text-xs font-medium text-gray-900 uppercase tracking-wider">Date</th>
                         <th scope="col" class="px-3 py-2 text-xs font-medium text-gray-900 uppercase tracking-wider">Expiry Date</th>
                         <th scope="col" class="px-3 py-2 text-xs font-medium text-gray-900 uppercase tracking-wider">action</th>
@@ -84,8 +82,6 @@
                         <td class="px-3 py-4 whitespace-nowrap  font-medium text-gray-900">{{ r.item|default_if_none:'N/A'|upper }}</td>
                         <td class="px-3 py-4 whitespace-nowrap  font-medium text-gray-900">{{ r.vendor_name|default_if_none:'N/A'|upper }}</td>
                         <td class="px-3 py-4 whitespace-nowrap  font-medium text-gray-900">{{ r.quantity_purchased }}</td>
-                        <td class="px-3 py-4 whitespace-nowrap  text-gray-500">{{ r.invoice_number|default_if_none:'N/A'|upper }}</td>
-                        <td class="px-3 py-4 whitespace-nowrap  text-gray-500">{{ r.store_receiving_voucher|default_if_none:'N/A'|upper }}</td>
                         <td class="px-3 py-4 whitespace-nowrap  text-gray-500">{{ r.purchase_date|default_if_none:'N/A' }}</td>
                         <td class="px-3 py-4 whitespace-nowrap  text-gray-500">{{ r.expiration_date|default_if_none:'N/A' }}</td>
                         <td class="px-3 py-4 text-center whitespace-nowrap text-gray-500">

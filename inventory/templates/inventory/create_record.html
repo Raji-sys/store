@@ -1,102 +1,99 @@
 {% extends 'base.html' %}
 {% block title %}INVENTORY RECORD{% endblock %}
 {% block content %}
-    <div class="bg-amber-100 shadow-xl rounded-lg overflow-hidden m-2 mx-auto w-fit">
-      <div class="bg-amber-600 flex justify-center gap-4 text-white align-middle text-xl py-2">
-        <div>
-          <a href="{% url 'record' %}" ><i class="text-white fa-solid fa-arrow-left"></i></a>    
-        </div>
-        <div>
-          <h2 class=" text-white text-center uppercase text-lg">Issue Item to Unit</h2>
-        </div>
-      </div>
-<!-- create_record.html -->
-<form id="recordForm" action="" method="POST" enctype="multipart/form-data" class="p-3 text-xs text-center">
-    {% csrf_token %}
-        {{ formset.management_form }}
-    <div class="mb-4 last:mb-0">
-        {% if formset.non_field_errors %}
-          <div class="text-red-600 text-xs uppercase bg-white p-2 rounded-xl w-fit text-center mb-1">
-            {{ formset.non_field_errors.0 }}
-          </div>
-        {% endif %}
-    </div>
-
-    <div class="grid grid-cols-1 gap-2">
-        {% for form in formset %}
-            <div class="grid grid-cols-3 lg:grid-cols-3 gap-8">
-                <div class="space-y-1">
-                    <label class="block text-xs font-medium text-gray-700">UNIT</label>
-                    {{ form.unit }}
-                    {% if form.unit.errors %}
-                        <div class="text-red-600 ">
-                            {{ form.unit.errors.0 }}
-                        </div>
-                    {% endif %}
-                </div>
-
-                <div class="space-y-1">
-                    <label class="block text-xs font-medium text-gray-700">ITEM</label>
-                    {{ form.item }}
-                    {% if form.item.errors %}
-                        <div class="text-red-600 ">
-                            {{ form.item.errors.0 }}
-                        </div>
-                    {% endif %}
-                </div>
-
-                <div class="space-y-1">
-                    <label class="block text-xs font-medium text-gray-700">TO WHOM</label>
-                    {{ form.issued_to }}
-                    {% if form.issued_to.errors %}
-                        <div class="text-red-600">
-                            {{ form.issued_to.errors.0 }}
-                        </div>
-                    {% endif %}
-                </div>
-
-                <div class="space-y-1">
-                    <label class="block text-xs font-medium text-gray-700">QTY</label>
-                    {{ form.quantity }}
-                    {% if form.quantity.errors %}
-                        <div class="text-red-600">
-                            {{ form.quantity.errors.0 }}
-                        </div>
-                    {% endif %}
-                </div>
-
-                <div class="space-y-1">
-                    <label class="block text-xs font-medium text-gray-700">SIV</label>
-                    {{ form.siv }}
-                    {% if form.siv.errors %}
-                        <div class="text-red-600">
-                            {{ form.siv.errors.0 }}
-                        </div>
-                    {% endif %}
-                </div>
-
-                <div class="space-y-1">
-                    <label class="block text-xs font-medium text-gray-700">REQUISITION NO</label>
-                    {{ form.requisition_number }}
-                    {% if form.requisition_number.errors %}
-                        <div class="text-red-600">
-                            {{ form.requisition_number.errors.0 }}
-                        </div>
-                    {% endif %}
-                </div>
-                
+<div class="max-w-2xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+    <div class="bg-white shadow-lg rounded-lg overflow-hidden">
+        <div class="bg-gradient-to-r from-amber-500 to-amber-700 flex justify-center items-center py-2">
+            <div class="flex items-center">
+                <a href="{% url 'record' %}" class="mr-2">
+                    <i class="text-white fa-solid fa-arrow-left"></i>
+                </a>
+                <h2 class="text-white uppercase text-lg m-0">Issue Item to Unit</h2>
             </div>
-        {% endfor %}
-    </div>
+        </div>
 
-    <div class="flex justify-center align-middle mt-2">
-        <input type="submit" value="issue item"
-               class="focus:opacity-10 uppercase focus:border-green-600 hover:bg-white hover:text-green-600 hover:border-2 hover:border-green-600
-               bg-green-500 text-white py-2 px-6 rounded shadow-lg hover:shadow-xl">
+        <form id="recordForm" action="" method="POST" enctype="multipart/form-data" class="px-6 py-8 bg-amber-50 text-xs">
+            {% csrf_token %}
+            {{ formset.management_form }}
+            
+            {% if formset.non_field_errors %}
+            <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mb-6 text-center" role="alert">
+                <strong class="">Error!</strong>
+                <span class="block sm:inline">{{ formset.non_field_errors.0 }}</span>
+            </div>
+            {% endif %}
+
+            <div class="grid grid-cols-1 gap-4">
+                {% for form in formset %}
+                <div class="grid grid-cols-1 gap-4">
+                    <div class="form-group">
+                        <label class="block text-xs font-medium text-gray-700 uppercase mb-1 text-center">
+                            UNIT
+                        </label>
+                        <div class="flex justify-center">
+                            {{ form.unit }}
+                        </div>
+                        {% if form.unit.errors %}
+                        <p class="mt-2 text-sm text-red-600 text-center">{{ form.unit.errors.0 }}</p>
+                        {% endif %}
+                    </div>
+
+                    <div class="form-group">
+                        <label class="block text-xs font-medium text-gray-700 uppercase mb-1 text-center">
+                            ITEM
+                        </label>
+                        <div class="flex justify-center">
+                            {{ form.item }}
+                        </div>
+                        {% if form.item.errors %}
+                        <p class="mt-2 text-sm text-red-600 text-center">{{ form.item.errors.0 }}</p>
+                        {% endif %}
+                    </div>
+
+                    <div class="form-group">
+                        <label class="block text-xs font-medium text-gray-700 uppercase mb-1 text-center">
+                            TO WHOM
+                        </label>
+                        <div class="flex justify-center">
+                            {{ form.issued_to }}
+                        </div>
+                        {% if form.issued_to.errors %}
+                        <p class="mt-2 text-sm text-red-600 text-center">{{ form.issued_to.errors.0 }}</p>
+                        {% endif %}
+                    </div>
+
+                    <div class="form-group">
+                        <label class="block text-xs font-medium text-gray-700 uppercase mb-1 text-center">
+                            QTY
+                        </label>
+                        <div class="flex justify-center">
+                            {{ form.quantity }}
+                        </div>
+                        {% if form.quantity.errors %}
+                        <p class="mt-2 text-sm text-red-600 text-center">{{ form.quantity.errors.0 }}</p>
+                        {% endif %}
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+
+            <div class="mt-8 flex justify-center">
+                <button type="submit" class="text-xs inline-flex items-center px-6 py-3 border border-transparent font-medium rounded-md text-white bg-amber-600 hover:bg-amber-700 hover:text-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-amber-500 uppercase transition duration-150 ease-in-out">
+                    issue item
+                </button>
+            </div>
+        </form>
     </div>
-</form>
 </div>
-<script>
+
+<style>
+    .form-group input[type="text"],
+    .form-group input[type="number"],
+    .form-group input[type="date"],
+    .form-group select {
+        @apply mt-1 focus:ring-amber-500 focus:border-amber-500 block w-full max-w-md shadow-sm sm:text-sm border-gray-300 rounded-md;
+    }
+</style><script>
 function initializePage() {
   function load_items(index) {
     const unitId = document.getElementsByName(`form-${index}-unit`)[0].value;

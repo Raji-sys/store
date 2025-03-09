@@ -112,7 +112,7 @@
 </head>
 <body> 
     <div class="logo-container">
-        <img class="logo-image" src="{% static "images/green.jpg" %}" alt="">
+        <img class="logo-image" src="{% static "images/green.png" %}" alt="">
     </div>
     <h1>RESOCK REPORT</h1>
     <hr> 
@@ -124,7 +124,6 @@
                 <th scope="col" class="border-2 border-white p-3">VENDOR</th>
                 <th scope="col" class="border-2 border-white p-3">RESTOCKED BY</th>
                 <th scope="col" class="border-2 border-white p-3">QTY</th>
-                <th scope="col" class="border-2 border-white p-3">SRV</th>
                 <th scope="col" class="border-2 border-white p-3">EXPIRY DATE</th>
             </tr>
               {% for r in f %}        
@@ -143,9 +142,6 @@
             </td>
             <td class="border-1 border-blue-700 p-3 text-center">
             {{r.quantity_purchased|default_if_none:''}}
-            </td>
-            <td class="border-1 border-blue-700 p-3 text-center">
-            {{r.store_receiving_voucher|default_if_none:''}}
             </td>
             <td class="border-1 border-blue-700 p-3 text-center">
             {{r.expiration_date|default_if_none:''}}

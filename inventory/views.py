@@ -26,9 +26,9 @@ from django.forms import modelformset_factory
 from django.views.generic import DeleteView
 
 
-class HODRequiredMixin(LoginRequiredMixin,UserPassesTestMixin):
+class HEADRequiredMixin(LoginRequiredMixin,UserPassesTestMixin):
     def test_func(self):
-        return self.request.user.groups.filter(name='HOD').exists()
+        return self.request.user.groups.filter(name='HEAD').exists()
 
 # -------------------------------------------------------------------
 # PDF Utility Functions
@@ -134,9 +134,7 @@ def items_list(request):
             Q(name__icontains=query) |
             Q(vendor__icontains=query) |
             Q(unit__name__icontains=query) |
-            Q(added_by__username__icontains=query) |
-            Q(invoice_number__icontains=query) |
-            Q(store_receiving_voucher__icontains=query)
+            Q(added_by__username__icontains=query)
         )
 
     pgn = Paginator(items, 10)
@@ -168,9 +166,7 @@ def item_pdf(request):
             Q(name__icontains=query) |
             Q(vendor__icontains=query) |
             Q(unit__name__icontains=query) |
-            Q(added_by__username__icontains=query) |
-            Q(invoice_number__icontains=query) |
-            Q(store_receiving_voucher__icontains=query)
+            Q(added_by__username__icontains=query)
         )
     
     # Prepare filter keys for display in the report
@@ -198,7 +194,7 @@ def item_pdf(request):
     response['Content-Disposition'] = f'attachment; filename="gen_by_{request.user}_{filename}"'
     return response
 
-class ItemUpdateView(HODRequiredMixin, UpdateView):
+class ItemUpdateView(HEADRequiredMixin, UpdateView):
     model = Item
     form_class = ItemForm
     template_name = 'create_item.html'
@@ -228,11 +224,9 @@ def records(request):
         records_qs = records_qs.filter(
             Q(item__name__icontains=query) |
             Q(item__vendor__icontains=query) |
-            Q(issued_to__icontains=query) |
+            Q(issued_to__name__icontains=query)|
             Q(unit__name__icontains=query) |
-            Q(issued_by__username__icontains=query) |
-            Q(siv__icontains=query) |
-            Q(requisition_number__icontains=query)
+            Q(issued_by__username__icontains=query)
         )
     total_quantity = records_qs.aggregate(total=Sum('quantity'))['total'] or 0
     pgn = Paginator(records_qs, 10)
@@ -264,11 +258,9 @@ def record_pdf(request):
         records_qs = records_qs.filter(
             Q(item__name__icontains=query) |
             Q(item__vendor__icontains=query) |
-            Q(issued_to__icontains=query) |
+            Q(issued_to__name__icontains=query) |
             Q(unit__name__icontains=query) |
-            Q(issued_by__username__icontains=query) |
-            Q(siv__icontains=query) |
-            Q(requisition_number__icontains=query)
+            Q(issued_by__username__icontains=query)
         )
     
     keys = []
@@ -318,7 +310,7 @@ def create_record(request):
     return render(request, 'inventory/create_record.html', {'formset': formset})
 
 
-class RecordUpdateView(HODRequiredMixin, UpdateView):
+class RecordUpdateView(HEADRequiredMixin, UpdateView):
     model = Record
     form_class = RecordForm
     template_name = 'inventory/update_record.html'
@@ -355,7 +347,7 @@ def restock(request):
     return render(request, 'inventory/restock.html', {'form': form})
 
 
-class RestockUpdateView(HODRequiredMixin,UpdateView):
+class RestockUpdateView(HEADRequiredMixin,UpdateView):
     model = ReStock
     form_class = ReStockForm
     template_name = 'inventory/restock.html'
@@ -397,9 +389,7 @@ def restocked_list(request):
             Q(item__name__icontains=query) |
             Q(vendor_name__icontains=query) |
             Q(unit__name__icontains=query) |
-            Q(restocked_by__username__icontains=query) |
-            Q(invoice_number__icontains=query) |
-            Q(store_receiving_voucher__icontains=query)
+            Q(restocked_by__username__icontains=query)
         )
     
     pgn = Paginator(restock_qs, 10)
@@ -431,9 +421,7 @@ def restock_pdf(request):
             Q(item__name__icontains=query) |
             Q(vendor_name__icontains=query) |
             Q(unit__name__icontains=query) |
-            Q(restocked_by__username__icontains=query) |
-            Q(invoice_number__icontains=query) |
-            Q(store_receiving_voucher__icontains=query)
+            Q(restocked_by__username__icontains=query)
         )
     
     keys = []
@@ -477,7 +465,7 @@ def get_items_for_unit(request, unit_id):
     return JsonResponse({'items': item_list})
 
 
-class ReStockDeleteView(HODRequiredMixin,UpdateView):
+class ReStockDeleteView(HEADRequiredMixin,DeleteView):
     model = ReStock
     template_name = "inventory/restock_delete.html"
     success_url = reverse_lazy("restocked")  
@@ -493,7 +481,7 @@ class ReStockDeleteView(HODRequiredMixin,UpdateView):
         return super().form_valid(form)
 
 
-class RecordDeleteView(HODRequiredMixin,UpdateView):
+class RecordDeleteView(HEADRequiredMixin,DeleteView):
     model = Record
     template_name = "inventory/record_delete.html"
     success_url = reverse_lazy("record")  

@@ -9,100 +9,11 @@ from simple_history.models import HistoricalRecords
 # -------------------------------------------------------------------
 # Department (unchanged)
 # -------------------------------------------------------------------
-class Department(models.TextChoices):
-    A_AND_E_SPINE = 'A&E SPINE', 'A&E SPINE'
-    A_AND_E_THEATRE = 'A&E THEATRE', 'A&E THEATRE'
-    A_AND_E_TRAUMA = 'A&E TRAUMA', 'A&E TRAUMA'
-    ACTU = 'ACTU', 'ACTU'
-    ACUTE_BURNS_UNIT = 'ACUTE BURNS UNIT', 'ACUTE BURNS UNIT'
-    AMENITY_WARD = 'AMENITIY WARD', 'AMENITIY WARD'
-    AMINU_DANTATA_WARD = 'AMINU DANTATA WARD', 'AMINU DANTATA WARD'
-    ANAESTHESIA = 'ANAESTHESIA', 'ANAESTHESIA'
-    APPOINTMENT_AND_PROMOTION = 'APPOINTMENT AND PROMOTION', 'APPOINTMENT AND PROMOTION'
-    BILLING_ACCOUNT = 'BILLING ACCOUNT', 'BILLING ACCOUNT'
-    BIO_MEDICAL = 'BIO-MEDICAL ENGR', 'BIO-MEDICAL ENGR'
-    BOARD_SECTION = 'BOARD SECTION', 'BOARD SECTION'
-    BURNS_AND_PLASTIC_UNIT = 'BURNS AND PLASTIC UNIT', 'BURNS AND PLASTIC UNIT'
-    CASH_OFFICE = 'CASH OFFICE', 'CASH OFFICE'
-    CATERTING = 'CATERING', 'CATERING'
-    CHILDRENS_WARD = 'CHILDRENS WARD', 'CHILDRENS WARD'
-    CLINICAL_SERVICES = 'CLINICAL SERVICES', 'CLINICAL SERVICES'
-    COMMERCIAL_CATERTING = 'COMMERCIAL CATERING', 'COMMERCIAL CATERING'
-    COMPOUND_OFFICE = 'COMPOUND OFFICE', 'COMPOUND OFFICE'
-    CSSU = 'CSSU', 'CSSU'
-    GENERAL_ADMIN = 'GENERAL ADMIN', 'GENERAL ADMIN'
-    DA_OFFICE = "DA's OFFICE", "DA's OFFICE"
-    DDA_S_ACCOUNT = "DDA's (ACCOUNT)", "DDA's (ACCOUNT)"
-    DISCIPLINE = 'DISCIPLINE', 'DISCIPLINE'
-    ENGINEERING = 'ENGINEERING', 'ENGINEERING'
-    FEMALE_WARD = 'FEMALE WARD', 'FEMALE WARD'
-    FINAL_ACCOUNT = 'FINAL ACCOUNT', 'FINAL ACCOUNT'
-    HAEMODIALYSIS = 'HAEMODIALYSIS', 'HAEMODIALYSIS'
-    ICU = 'ICU', 'ICU'
-    INFORMATION_TECHNOLOGY_UNIT = 'INFORMATION TECHNOLOGY UNIT', 'INFORMATION TECHNOLOGY UNIT'
-    INTERNAL_AUDIT = 'INTERNAL AUDIT', 'INTERNAL AUDIT'
-    INPLANT_STORE = 'INPLANT STORE', 'INPLANT STORE'
-    JUNIOR_STAFF = 'JUNIOR STAFF', 'JUNIOR STAFF'
-    LAUNDRY = 'LAUNDRY', 'LAUNDRY'
-    MAIN_POWER = 'MAIN POWER', 'MAIN POWER'
-    THEATRE_SIDE = 'THEATRE SIDE', 'THEATRE SIDE'
-    SOPD_SIDE = 'SOPD SIDE', 'SOPD SIDE'
-    TRANSPORT_DEPARTMENT = 'TRANSPORT DEPARTMENT', 'TRANSPORT DEPARTMENT'
-    MEDICAL_DIRECTORS_HOUSE = "MEDICAL DIRECTOR'S HOUSE", "MEDICAL DIRECTOR'S HOUSE"
-    LEGAL_UNIT = 'LEGAL UNIT', 'LEGAL UNIT'
-    MAIN_OPERATING_THEATRE = 'MAIN OPERATING THEATRE', 'MAIN OPERATING THEATRE'
-    MALE_WARD_1 = 'MALE WARD 1', 'MALE WARD 1'
-    MALE_WARD_2 = 'MALE WARD 2', 'MALE WARD 2'
-    MAXILLOFACIAL = 'MAXILLOFACIAL', 'MAXILLOFACIAL'
-    MD_OFFICE = "MD's OFFICE", "MD's OFFICE"
-    MEDICAL_ILLUSTRATION = 'MEDICAL ILLUSTRATION', 'MEDICAL ILLUSTRATION'
-    MEDICAL_LIBRARY = 'MEDICAL LIBRARY', 'MEDICAL LIBRARY'
-    MEDICAL_RECORD = 'MEDICAL RECORD', 'MEDICAL RECORD'
-    MEDICAL_SOCIAL_WELFARE = 'MEDICAL SOCIAL WELFARE', 'MEDICAL SOCIAL WELFARE'
-    MSSD = 'MSSD', 'MSSD'
-    NHIA_ECG = 'NHIA (E.C.G)', 'NHIA (E.C.G)'
-    NHIA_SECRETARY = 'NHIA SECRETARY', 'NHIA SECRETARY'
-    NHIA = 'NHIA', 'NHIA'
-    NURSING_EDUCATION = 'NURSING EDUCATION', 'NURSING EDUCATION'
-    NURSING_SERVICES = 'NURSING SERVICES', 'NURSING SERVICES'
-    O_AND_G_THEATRE = 'O&G THEATRE', 'O&G THEATRE'
-    O_AND_G_UNIT = 'O&G UNIT', 'O&G UNIT'
-    OCCUPATIONAL_THERAPHY = 'OCCUPATIONAL THERAPHY', 'OCCUPATIONAL THERAPHY'
-    ORTHOPAEDIC_CAST = 'ORTHOPAEDIC CAST', 'ORTHOPAEDIC CAST'
-    ORTHOPAEDIC_CONSULTANT = 'ORTHOPAEDIC CONSULTANT', 'ORTHOPAEDIC CONSULTANT'
-    ORTHOPAEDIC_UNIT = 'ORTHOPAEDIC UNIT', 'ORTHOPAEDIC UNIT'
-    OXYGEN_PLANT = 'OXYGEN PLANT', 'OXYGEN PLANT'
-    P_AND_O_ICRC = 'P & O (ICRC)', 'P & O (ICRC)'
-    PATHOLOGY = 'PATHOLOGY', 'PATHOLOGY'
-    PAYROLL = 'PAYROLL', 'PAYROLL'
-    PENSION_AND_STAFF_WELFARE = 'PENSION AND STAFF WELFARE', 'PENSION AND STAFF WELFARE'
-    PERSONNEL = 'PERSONNEL', 'PERSONNEL'
-    PHARMACY = 'PHARMACY', 'PHARMACY'
-    PHYSIOTHERAPHY = 'PHYSIOTHERAPHY', 'PHYSIOTHERAPHY'
-    PLANNING_UNIT = 'PLANNING UNIT', 'PLANNING UNIT'
-    PROCUMENT = 'PROCUMENT', 'PROCUMENT'
-    PROSTHETIC_AND_OTHOTICS = 'PROSTHETIC AND OTHOTICS', 'PROSTHETIC AND OTHOTICS'
-    PROTOCOL_UNIT = 'PROTOCOL UNIT', 'PROTOCOL UNIT'
-    PUBLIC_HEALTH = 'PUBLIC HEALTH', 'PUBLIC HEALTH'
-    RADIOLOGY = 'RADIOLOGY', 'RADIOLOGY'
-    RET = 'RET', 'RET'
-    REVENUE = 'REVENUE', 'REVENUE'
-    RGISTRTY = 'REGISTRY', 'REGISTRY'
-    SCHOOL_OF_P_AND_O = 'SCHOOL OF P AND O', 'SCHOOL OF P AND O'
-    SCHOOL_CONTINUOUS_EDUCATION = 'SCHOOL CONTINUOUS EDUCATION', 'SCHOOL CONTINUOUS EDUCATION'
-    SECURITY_OFFICE = 'SECURITY OFFICE', 'SECURITY OFFICE'
-    SENIOR_STAFF = 'SENIOR STAFF', 'SENIOR STAFF'
-    SERVICOM = 'SERVICOM', 'SERVICOM'
-    SOCAST = 'SOCAST', 'SOCAST'
-    SOPD = 'S.O.P.D', 'S.O.P.D'
-    SPINE_COMPLEX = 'SPINE COMPLEX', 'SPINE COMPLEX'
-    SPINE_EXTENSION = 'SPINE EXTENSION', 'SPINE EXTENSION'
-    SPINE_OPD = 'SPINE OPD', 'SPINE OPD'
-    SPINE_WARD = 'SPINE WARD', 'SPINE WARD'
-    STORE_AND_SUPPLIES = 'STORE AND SUPPLIES', 'STORE AND SUPPLIES'
-    TELEPHONE = 'TELEPHONE', 'TELEPHONE'
-    TRANSPORT = 'TRANSPORT', 'TRANSPORT'
-    TAILORING_UNIT = 'TAILORING UNIT', 'TAILORING UNIT'
+class Department(models.Model):
+    name=models.CharField(max_length=200)
+
+    def __str__(self):
+        return self.name
 
 
 # -------------------------------------------------------------------
@@ -122,8 +33,8 @@ class Item(models.Model):
     date_added = models.DateField(auto_now_add=True)
     name = models.CharField(max_length=100)
     vendor = models.CharField(max_length=100, null=True, blank=True)
-    invoice_number = models.IntegerField(null=True, blank=True)  # INTEGER per old model
-    store_receiving_voucher = models.CharField(max_length=30, null=True, blank=True)
+    # invoice_number = models.IntegerField(null=True, blank=True)  # INTEGER per old model
+    # store_receiving_voucher = models.CharField(max_length=30, null=True, blank=True)
     added_by = models.ForeignKey(
         User, on_delete=models.CASCADE, null=True, blank=True, related_name='added_items'
     )
@@ -207,16 +118,17 @@ class Record(models.Model):
     item = models.ForeignKey(
         Item, on_delete=models.CASCADE, null=True, blank=True, related_name="records"
     )
-    issued_to = models.CharField(
-        max_length=100, choices=Department.choices, null=True, blank=True
-    )
+    # issued_to = models.CharField(
+    #     max_length=100, choices=Department.choices, null=True, blank=True
+    # )
+    issued_to = models.ForeignKey(Department, on_delete=models.CASCADE,null=True)
     quantity = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True)
     date_issued = models.DateField(auto_now_add=True,null=True)
     issued_by = models.ForeignKey(
         User, on_delete=models.CASCADE, null=True, blank=True, related_name='records'
     )
-    siv = models.CharField(max_length=30, null=True, blank=True)
-    requisition_number = models.CharField(max_length=30, null=True, blank=True)
+    # siv = models.CharField(max_length=30, null=True, blank=True)
+    # requisition_number = models.CharField(max_length=30, null=True, blank=True)
     # Field name “balance” remains unchanged, even though we compute it below.
     balance = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True)
     updated_at = models.DateTimeField(auto_now=True)
@@ -299,8 +211,6 @@ class ReStock(models.Model):
     item = models.ForeignKey(Item, on_delete=models.CASCADE)
     vendor_name = models.CharField(max_length=100, null=True, blank=True)
     quantity_purchased = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True)
-    invoice_number = models.IntegerField(null=True, blank=True)  # INTEGER as in old model
-    store_receiving_voucher = models.CharField(max_length=30, null=True, blank=True)
     expiration_date = models.DateField(null=True, blank=True)
     purchase_date = models.DateTimeField(auto_now_add=True)
     restocked_by = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True, related_name='drug_restocking')

@@ -118,9 +118,9 @@ h1 {
 <body>
     <body>  
         <div class="logo-container">
-            <img class="logo-image" src="{% static "images/logo.jpg" %}" alt="">
+            <img class="logo-image" src="{% static "images/green.png" %}" alt="">
         </div>
-        <h1> NOHD STORE ITEMS REPORT</h1>
+        <h1> STORE ITEMS REPORT</h1>
         <div class="result">
           {{ result|upper }}
         </div>
@@ -132,8 +132,6 @@ h1 {
                 <th scope="col" class="border-2 border-white p-3">NAME</th>
                 <th scope="col" class="border-2 border-white p-3">VENDOR</th>
                 <th scope="col" class="border-2 border-white p-3">ADDED BY</th>
-                <th scope="col" class="border-2 border-white p-3">INVOICE NUMBER</th>
-                <th scope="col" class="border-2 border-white p-3">STORE RECEIVING VOUCHER</th>
                 <th scope="col" class="border-2 border-white p-3">STORE UNIT</th>
                 <th scope="col" class="border-2 border-white p-3">UNIT PRICE</th>
                 <th scope="col" class="border-2 border-white p-3">EXPIRY DATE</th>
@@ -153,12 +151,6 @@ h1 {
             </td>
             <td class="border-2 border-amber-700 p-3 text-center">
                 {{i.added_by|default_if_none:''}}
-            </td>
-            <td class="border-1 border-zinc-700 p-1 text-center">
-            {{i.invoice_number|default_if_none:''}} 
-            </td>
-            <td class="border-1 border-zinc-700 p-1 text-center">
-            {{i.store_receiving_voucher|default_if_none:''}} 
             </td>
             <td class="border-2 border-amber-700 p-1 text-center">
                 {{i.unit|default_if_none:''}} 

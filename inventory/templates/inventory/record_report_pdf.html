@@ -112,9 +112,9 @@
 </head>
 <body> 
     <div class="logo-container">
-        <img class="logo-image" src="{% static "images/logo.jpg" %}" alt="">
+        <img class="logo-image" src="{% static "images/green.png" %}" alt="">
     </div>
-    <h1> NOHD STORE ITEM ISSUED REPORT</h1>
+    <h1>ITEM ISSUED REPORT</h1>
     <hr> 
   <table class="table-auto max-sm:flex items-center justify-center">
         <tbody class="bg-white border-2 max-sm:p-2 p-2 overflow-x-auto border-green-900 text-xs">
@@ -125,8 +125,6 @@
                 <th scope="col" class="border-2 border-white p-3">ISSUED TO</th>
                 <th scope="col" class="border-2 border-white p-3">ISSUED BY</th>
                 <th scope="col" class="border-2 border-white p-3">QTY ISSUED</th>
-                <th scope="col" class="border-2 border-white p-3">SIV</th>
-                <th scope="col" class="border-2 border-white p-3">REQUISITION NUMBER</th>
                 <th scope="col" class="border-2 border-white p-3">BALANCE</th>
                 <th scope="col" class="border-2 border-white p-3">DATE ISSUED</th>
             </tr>
@@ -145,16 +143,10 @@
             {{r.issued_to|default_if_none:''}}
             </td>
             <td class="border-1 border-amber-700 p-1 text-center">
-            {{r.issued_by}}
+            {{r.issued_by|default_if_none:'N/A'}}
             </td>
             <td class="border-1 border-amber-700 p-3 text-center">
             {{r.quantity|default_if_none:''}}
-            </td>
-            <td class="border-1 border-amber-700 p-3 text-center">
-            {{r.siv|default_if_none:''}}
-            </td>
-            <td class="border-1 border-amber-700 p-3 text-center">
-            {{r.requisition_number|default_if_none:''}}
             </td>
             <td class="border-1 border-amber-700 p-3 text-center">
             {{r.balance|default_if_none:''}}
