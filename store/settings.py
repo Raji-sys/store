@@ -66,7 +66,7 @@ TEMPLATES = [
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
         'DIRS': [BASE_DIR / 'templates'],
         'APP_DIRS': True,
-        
+
         'OPTIONS': {
             'context_processors': [
                 'django.template.context_processors.debug',
@@ -149,7 +149,7 @@ LOGIN_URL="/login/"
 
 
 STATIC_URL = '/static/'
-STATIC_ROOT=os.path.join(BASE_DIR,'static/')
+STATIC_ROOT=os.path.join(BASE_DIR,'static')
 
 
 MEDIA_URL = '/media/'
