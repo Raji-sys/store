@@ -25,7 +25,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'django.contrib.humanize',
     'tailwind',
-    # 'theme',
+    'theme',
     'fontawesomefree',
     'django_filters',
     'django_fastdev',
@@ -148,7 +148,7 @@ LOGIN_URL="/login/"
 
 
 STATIC_URL = '/static/'
-STATIC_ROOT=os.path.join(BASE_DIR,'store/')
+STATIC_ROOT=os.path.join(BASE_DIR,'static/')
 
 
 MEDIA_URL = '/media/'
